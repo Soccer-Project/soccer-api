@@ -29,11 +29,11 @@
 
 ### endpoints
 
-GET /players
+**_GET_** /players
 
 Return all players and general stats information
 
-GET /players/:playerId
+**_GET_** /players/:playerId
 
 Return a specific player with stats detailed for season
 
@@ -45,7 +45,7 @@ playerId receive a string parameter, with the value of the player in database
     http://localhost:5000/player/1c93d8cc-9890-4475-964f-e58beb84f7c0
 ---
 
-POST /player
+**_POST_** /player
 
 Create a player and return your id in response
 
@@ -57,7 +57,7 @@ Create a player and return your id in response
     }
 ---
 
-POST /season
+**_POST_** /season
 
 Create a season and return your id in response
 
@@ -69,7 +69,7 @@ Create a season and return your id in response
     }
 ---
 
-POST /season/data
+**_POST_** /season/data
 
 Create a data about specific season for a specific player
 To creata a data, need season and player existis in database
