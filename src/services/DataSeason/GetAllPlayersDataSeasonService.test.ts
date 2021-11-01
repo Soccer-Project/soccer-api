@@ -44,6 +44,8 @@ describe('GetAllPlayersDataSeasonService', () => {
         const seasonId2 = getSeasonId2[0].season_id
 
         await createDataSeasonService.execute({ player_id: playerId, season_id: seasonId, games: 3, goals: 1, assists: 2 });
+        await createDataSeasonService.execute({ player_id: playerId, season_id: seasonId2, games: 1, goals: 2, assists: 1 });
+        await createDataSeasonService.execute({ player_id: playerId2, season_id: seasonId, games: 2, goals: 3, assists: 2 });
         await createDataSeasonService.execute({ player_id: playerId2, season_id: seasonId2, games: 4, goals: 2, assists: 3 });
 
         const response = await getAllPlayersDataSeason.execute()
@@ -66,7 +68,10 @@ describe('GetAllPlayersDataSeasonService', () => {
             .from(Player)
             .execute()
 
-        expect(response).toMatchObject([{games: 4, goals: 2, assists: 3, playerId: {name: 'Another player'}}, {games: 3, goals: 1, assists: 2, playerId: {name: 'Some player'}}])
+        expect(response).toMatchObject([
+            {players_name: 'Some player', games: 4, goals: 3, assists: 3}, 
+            {players_name: 'Another player', games: 6, goals: 5, assists: 5}
+        ])
 
     })
 })
