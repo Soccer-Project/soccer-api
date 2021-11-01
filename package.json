@@ -7,7 +7,7 @@
     "dev": "ts-node-dev src/index.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "test": "jest NODE_ENV = 'test'",
-    "start": "node build/index.js",
+    "start": "node build/index.ts",
     "build": "tsc",
     "postinstall": "npm run build"
   },
