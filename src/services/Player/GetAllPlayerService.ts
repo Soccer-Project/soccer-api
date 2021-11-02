@@ -1,0 +1,6 @@
+
+class GetAllPlayerService {
+
+}
+
+export { GetAllPlayerService }
