@@ -21,18 +21,18 @@ describe('CreatePlayerController', () => {
         name: 'New player'
     }
 
-    it('should return a id for a new player', async () => {
+    const createPlayerController = new CreatePlayerController();
+
+    const request = {
+        body: {
+            name: newPlayer.name
+        }
+    } as Request;
+
+    const response = makeMockResponse();
+
+    it('should return a player when created', async () => {
         mockExecute = jest.fn().mockResolvedValue(newPlayer)
-
-        const createPlayerController = new CreatePlayerController();
-
-        const request = {
-            body: {
-                name: newPlayer.name
-            }
-        } as Request;
-
-        const response = makeMockResponse();
 
         await createPlayerController.handle(request, response);
 
@@ -40,4 +40,19 @@ describe('CreatePlayerController', () => {
         expect(response.state.status).toBe(200)
         expect(response.state.json).toMatchObject(newPlayer)
     })
+
+    it('should return status 500 when have server error', async () => {
+        mockExecute = jest.fn().mockImplementation(() => {
+            throw new Error('Error')
+        })
+
+        try {
+            await createPlayerController.handle(request, response)   
+        } catch (error) {
+            expect(mockExecute).toBeCalled()
+            expect(response.state.status).toBe(500)
+            expect(response.state.json).toMatchObject(newPlayer)
+        }
+    })
+
 })
