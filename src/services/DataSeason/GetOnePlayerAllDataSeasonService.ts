@@ -1,21 +1,32 @@
-import { getRepository } from 'typeorm';
-import { DataSeason } from '../../entities/DataSeason';
+import { getCustomRepository } from 'typeorm';
+import { DataSeasonRepository } from '../../repositories/DataSeasonRepository';
 
-interface IPlayer {
-    playerId: string;
+interface IPlayerDataRepository {
+    dataSeasonRepository?: DataSeasonRepository;
+    playerId: string,
 }
 
 class GetOnePlayerAllDataSeasonService {
-    async execute({ playerId }: IPlayer){
+    private dataSeasonRepository: DataSeasonRepository
+    private playerId: string
 
-        const data = await getRepository(DataSeason)
-            .createQueryBuilder('dataSeason')
-            .leftJoinAndSelect('dataSeason.playerId', 'players')
-            .leftJoinAndSelect('dataSeason.seasonId', 'seasonId')
-            .where('dataSeason.player_id = :player_id', { player_id: playerId})
-            .getMany()
-            
-        return data;
+    constructor({
+        dataSeasonRepository = getCustomRepository(DataSeasonRepository),
+        playerId
+    }: IPlayerDataRepository ){
+        this.dataSeasonRepository = dataSeasonRepository;
+        this.playerId = playerId;
+    }
+
+    async execute(){
+        try {
+            const playerData = await this.dataSeasonRepository.findByPlayer(this.playerId)
+            console.log(playerData)
+            return playerData;
+        } catch (error) {
+            console.log(error)
+            return error
+        }
     }
 }
 

@@ -1,5 +1,4 @@
 import { getCustomRepository } from 'typeorm';
-import { Player } from '../../entities/Player';
 import { PlayerRepository } from '../../repositories/PlayerRepository';
 
 interface IPlayerRepository {
@@ -11,7 +10,10 @@ class GetOnePlayerService {
     private playerRepository: PlayerRepository
     private playerId: string;
 
-    constructor({playerRepository = getCustomRepository(PlayerRepository), playerId}: IPlayerRepository) {
+    constructor({
+        playerRepository = getCustomRepository(PlayerRepository), 
+        playerId
+    }: IPlayerRepository) {
         this.playerRepository = playerRepository;
         this.playerId = playerId
     }

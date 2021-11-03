@@ -1,7 +1,7 @@
 import { EntityManager } from 'typeorm'
 
 type managerMockArgs = {
-  findReturn?: [object]
+  findReturn?: object | [object]
   findOneReturn?: object
   saveReturn?: object | [object]
   updateReturn?: object
