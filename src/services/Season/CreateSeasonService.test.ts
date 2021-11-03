@@ -1,12 +1,19 @@
 import { getConnection } from 'typeorm';
 import createConnection from '../../database';
-import { Season } from '../../entities/Season';
 import { CreateSeasonService } from './CreateSeasonService';
+
+jest.mock('../../repositories/SeasonRepository')
+
+const seasonRepositoryMock = require('../../repositories/SeasonRepository')
+const createSeasonService = new CreateSeasonService({
+    seasonRepository: seasonRepositoryMock,
+    name: '2020'
+})
 
 describe('CreateSeasonService', () => {
     beforeAll(async () => {
-        const connection = await createConnection();
-        await connection.runMigrations();
+        await createConnection();
+        seasonRepositoryMock.save = jest.fn()
     })
 
     afterAll(async () => {
@@ -14,17 +21,9 @@ describe('CreateSeasonService', () => {
         await connection.close();
     })
 
-    const createSeasonService = new CreateSeasonService();
+    it('Create a new season', async () => {
+        await createSeasonService.execute()
 
-    it('should return a season_id when creating a new season', async () => {
-        const response = await createSeasonService.execute({ name: '2020'})
-
-        await getConnection()
-            .createQueryBuilder()
-            .delete()
-            .from(Season)
-            .execute()
-
-        expect(response).toMatchObject([{season_id: response[0].season_id}])
+        expect(seasonRepositoryMock.save).toHaveBeenCalled()
     })
 })

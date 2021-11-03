@@ -1,30 +1,28 @@
-import { getRepository } from 'typeorm';
-import { v4 as uuid } from "uuid";
+import { getCustomRepository } from 'typeorm';
 import { Season } from '../../entities/Season';
+import { SeasonRepository } from '../../repositories/SeasonRepository';
 
-interface ISeason {
-    name: string;
+interface ISeasonRepository {
+    seasonRepository?: SeasonRepository,
+    name: string,
 }
 
 class CreateSeasonService{
-    async execute({ name }: ISeason){
-        try {
-            const season = await getRepository(Season)
-            .createQueryBuilder()
-            .insert()
-            .into(Season)
-            .values([
-                {   
-                    season_id: uuid(),
-                    name
-                }
-            ])
-            .execute();
+    private seasonRepository: SeasonRepository
+    private season: Season
 
-            return season.identifiers;
-        } catch (error) {
-            throw new Error('season already exists')
-        }
+    constructor({
+        seasonRepository = getCustomRepository(SeasonRepository),
+        name
+    }: ISeasonRepository){
+        this.seasonRepository = seasonRepository;
+        this.season = new Season(name)
+    }
+
+    async execute(){
+        const season = await this.seasonRepository.save(this.season)
+        console.log(season)
+        return season;
     }
 }
 
