@@ -1,27 +1,34 @@
-import { getConnection } from 'typeorm';
 import { Request } from 'express';
 import { makeMockResponse } from '../../__mocks__/mockResponse';
-import createConnection from '../../database';
-import { CreatePlayerController } from './CreatePlayerController';
-import { Player } from '../../entities/Player';
+import { CreatePlayerController } from './CreatePlayerController'
+
+let mockExecute = jest.fn();
+
+jest.mock('../../services/Player/CreatePlayerService', () => {
+    return {
+        CreatePlayerService: jest.fn().mockImplementation(() => {
+            return {
+                execute: mockExecute
+            }
+        })
+    }}
+)
 
 describe('CreatePlayerController', () => {
-    beforeAll(async () => {
-        const connection = await createConnection();
-        await connection.runMigrations();
-    })
 
-    afterAll(async () => {
-        const connection = getConnection();
-        await connection.close();
-    })
+    const newPlayer = {
+        player_id: '896fe1b6-5ae4-4da2-a94f-e64d640c09d4',
+        name: 'New player'
+    }
 
     it('should return a id for a new player', async () => {
+        mockExecute = jest.fn().mockResolvedValue(newPlayer)
+
         const createPlayerController = new CreatePlayerController();
 
         const request = {
             body: {
-                name: 'Some player'
+                name: newPlayer.name
             }
         } as Request;
 
@@ -29,12 +36,8 @@ describe('CreatePlayerController', () => {
 
         await createPlayerController.handle(request, response);
 
-        const connection = getConnection();
-        await connection.createQueryBuilder()
-            .delete()
-            .from(Player)
-            .execute()
-
+        expect(mockExecute).toBeCalled()
         expect(response.state.status).toBe(200)
+        expect(response.state.json).toMatchObject(newPlayer)
     })
 })

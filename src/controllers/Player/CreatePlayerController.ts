@@ -5,10 +5,10 @@ class CreatePlayerController {
     async handle(request: Request, response: Response){
         const { name } = request.body;
 
-        const createPlayerService = new CreatePlayerService();
+        const createPlayerService = new CreatePlayerService({name});
 
         try {
-            const player = await createPlayerService.execute({ name })
+            const player = await createPlayerService.execute()
             return response.status(200).json(player)
         } catch (error) {
             return response.status(500).json(error)

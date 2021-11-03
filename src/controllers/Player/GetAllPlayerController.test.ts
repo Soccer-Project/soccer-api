@@ -23,7 +23,7 @@ describe('GetAllPlayerController', () => {
         const request = makeMockRequest({})
         const response = makeMockResponse()
         
-        console.log(await getAllPlayerController.handle(request, response))
+        await getAllPlayerController.handle(request, response)
 
         expect(mockExecute).toBeCalled()
         expect(response.state.status).toBe(200)
