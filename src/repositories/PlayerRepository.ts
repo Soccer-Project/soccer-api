@@ -16,6 +16,24 @@ class PlayerRepository {
     save = async (player: Player): Promise<Player> => {
         return this.manager.save(player)
     }
+
+    findById = async (playerId: string): Promise<Player> => {
+        try {
+            const player: Player = await this.manager.findOne(Player, {
+                where: {
+                    player_id: playerId,
+                }
+            })
+
+            if(!player){
+                throw {mesage: 'Player not found!'}
+            }
+
+            return player
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    }
 }
 
 export { PlayerRepository }

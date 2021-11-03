@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 @Entity('players')
 class Player {
     @PrimaryColumn()
-    readonly player_id: string;
+    player_id: string;
 
     @Column()
     name: string
