@@ -1,6 +1,4 @@
-import getManagerMock from '../utils/mocks/getEntityManagerMock'
-
-import { Player } from '../entities/Player'
+import getManagerMock from '../__mocks__/getEntityManagerMock'
 import { PlayerRepository } from './PlayerRepository'
 
 describe('PlayerRepository', () => {

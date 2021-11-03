@@ -1,7 +1,7 @@
 import { getConnection } from 'typeorm';
 import { Request } from 'express';
-import { makeMockResponse } from '../../utils/mocks/mockResponse';
-import { makeMockRequest } from '../../utils/mocks/mockRequest';
+import { makeMockResponse } from '../../__mocks__/mockResponse';
+import { makeMockRequest } from '../../__mocks__/mockRequest';
 import createConnection from '../../database';
 import { CreatePlayerService } from '../../services/Player/CreatePlayerService';
 import { GetOnePlayerAllDataSeasonController } from './GetOnePlayerAllDataSeasonController';

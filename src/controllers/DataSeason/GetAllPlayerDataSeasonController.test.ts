@@ -1,6 +1,6 @@
 import { getConnection } from 'typeorm';
 import { Request } from 'express';
-import { makeMockResponse } from '../../utils/mocks/mockResponse';
+import { makeMockResponse } from '../../__mocks__/mockResponse';
 import createConnection from '../../database';
 import { DataSeason } from '../../entities/DataSeason';
 import { Player } from '../../entities/Player';

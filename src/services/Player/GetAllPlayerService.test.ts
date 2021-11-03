@@ -2,9 +2,9 @@ import { getConnection } from 'typeorm';
 import createConnection from '../../database';
 import { GetAllPlayerService } from './GetAllPlayerService';
 
-jest.mock('../../repositories/PlayerRepository.ts')
+jest.mock('../../repositories/PlayerRepository')
 
-const playerRepositoryMock = require('../../repositories/PlayerRepository.ts')
+const playerRepositoryMock = require('../../repositories/PlayerRepository')
 const getAllPlayerService = new GetAllPlayerService(playerRepositoryMock)
 
 describe('GetAllPlayerService', () => {

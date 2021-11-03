@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import { makeMockResponse } from '../utils/mocks/mockResponse';
-import { makeMockRequest } from '../utils/mocks/mockRequest';
+import { makeMockResponse } from '../__mocks__/mockResponse';
+import { makeMockRequest } from '../__mocks__/mockRequest';
 import { MessageController } from './MessageController';
 
 describe('MessageController', () => {
