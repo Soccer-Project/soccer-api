@@ -1,5 +1,3 @@
-import { getConnection } from 'typeorm';
-import createConnection from '../../database';
 import { makeMockRequest } from '../../__mocks__/mockRequest';
 import { makeMockResponse } from '../../__mocks__/mockResponse';
 import { GetAllPlayerController } from './GetAllPlayerController';
