@@ -11,7 +11,7 @@ const getOneAllDataSeasonSeason = new GetOnePlayerAllDataSeasonService({
 
 describe('GetOnePlayerAllDataSeasonService', () => {
     beforeAll(async () => {
-        const connection = await createConnection();
+        await createConnection();
     })
 
     afterAll(async () => {

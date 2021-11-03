@@ -3,13 +3,19 @@ import { GetOnePlayerAllDataSeasonService } from '../../services/DataSeason/GetO
 
 class GetOnePlayerAllDataSeasonController {
     async handle(request: Request, response: Response){
-        const getOnePlayerAllDataSeasonService = new GetOnePlayerAllDataSeasonService();
+        const { playerId } = request.params;
+
+        console.log(playerId);
         
-        const { playerId } = request;
+        const getOnePlayerAllDataSeasonService = new GetOnePlayerAllDataSeasonService({ playerId });
 
-        const data = await getOnePlayerAllDataSeasonService.execute({ playerId });
-
-        return response.status(200).json(data)
+        try {
+            const data = await getOnePlayerAllDataSeasonService.execute();
+            console.log('controller', data)
+            return response.status(200).json(data)
+        } catch (error) {
+            return response.status(500).json({message: 'Error'})
+        }
     }
 }
 

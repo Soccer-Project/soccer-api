@@ -19,7 +19,7 @@ class DataSeasonRepository {
                 where: {
                     player_id: playerId,
                 },
-                relations: ['Player', 'Season']
+                relations: ['playerId', 'seasonId']
             })
 
             if(!dataSeason){

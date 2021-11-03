@@ -21,7 +21,7 @@ class GetOnePlayerAllDataSeasonService {
     async execute(){
         try {
             const playerData = await this.dataSeasonRepository.findByPlayer(this.playerId)
-            console.log(playerData)
+            console.log('service log', playerData)
             return playerData;
         } catch (error) {
             console.log(error)

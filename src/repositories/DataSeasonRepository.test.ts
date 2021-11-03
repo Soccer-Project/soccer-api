@@ -20,7 +20,15 @@ describe('DataSeasonRepository', () => {
             season_id: '6695a631-d1a6-4f45-8f81-afb33e496468',
             games: 3,
             goals: 2,
-            assists: 1
+            assists: 1,
+            playerId: {
+                player_id: '5fcd39e2-1187-4a15-bc61-2bb065adc7d5',
+                name: 'Some player'
+            },
+            seasonId: {
+                season_id: '6695a631-d1a6-4f45-8f81-afb33e496468',
+                name: '2020'
+            }
         }
         
         const dataSeasonReturned = new DataSeason(
@@ -31,9 +39,11 @@ describe('DataSeasonRepository', () => {
             dataSeasonMock.assists
         )
         dataSeasonReturned.data_season_id = dataSeasonMock.data_season_id
+        dataSeasonReturned.playerId = dataSeasonMock.playerId
+        dataSeasonReturned.seasonId = dataSeasonMock.seasonId
 
         const managerMock = await getManagerMock({
-            findReturn: dataSeasonReturned
+            findReturn: [dataSeasonReturned]
         })
 
         const dataSeasonRepository = new DataSeasonRepository(managerMock)
@@ -48,12 +58,14 @@ describe('DataSeasonRepository', () => {
             dataSeasonMock.assists
         )
         dataSeasonExpected.data_season_id = dataSeasonMock.data_season_id
+        dataSeasonExpected.playerId = dataSeasonMock.playerId
+        dataSeasonExpected.seasonId = dataSeasonMock.seasonId
 
         expect(managerMock.find).toHaveBeenCalled()
-        expect(data).toMatchObject(dataSeasonExpected)
+        expect(data).toMatchObject([dataSeasonExpected])
     })
 
-    it('should return a array when exists multiples players', async () => {
+    it('should return a array when exists multiples season for player', async () => {
         
         const dataSeasonMock = {
             data_season_id: '896fe1b6-5ae4-4da2-a94f-e64d640c09d4',
