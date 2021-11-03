@@ -5,13 +5,13 @@ class CreateSeasonController{
     async handle(request: Request, response: Response){
         const { name } = request.body
 
-        const createSeasonService = new CreateSeasonService();
+        const createSeasonService = new CreateSeasonService({name});
 
         try {
-            const season = await createSeasonService.execute({ name });
+            const season = await createSeasonService.execute();
             return response.status(200).json(season);
         } catch (error) {
-            return response.status(500).json({message: 'season already exists'})
+            return response.status(500).json(error)
         }
     }
 }

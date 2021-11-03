@@ -51,7 +51,6 @@ describe('CreatePlayerController', () => {
         } catch (error) {
             expect(mockExecute).toBeCalled()
             expect(response.state.status).toBe(500)
-            expect(response.state.json).toMatchObject(newPlayer)
         }
     })
 

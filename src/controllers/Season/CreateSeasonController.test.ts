@@ -1,64 +1,56 @@
-import { getConnection } from 'typeorm';
 import { Request } from 'express';
-import { makeMockResponse } from '../../utils/mocks/mockResponse';
-import createConnection from '../../database';
+import { makeMockResponse } from '../../__mocks__/mockResponse';
 import { CreateSeasonController } from './CreateSeasonController';
-import { Season } from '../../entities/Season';
+
+let mockExecute = jest.fn();
+
+jest.mock('../../services/Season/CreateSeasonService', () => {
+    return {
+        CreateSeasonService: jest.fn().mockImplementation(() => {
+            return {
+                execute: mockExecute
+            }
+        })
+    }}
+)
 
 describe('CreateSeasonController', () => {
-    beforeAll(async () => {
-        const connection = await createConnection();
-        await connection.runMigrations();
-    })
 
-    afterAll(async () => {
-        const connection = getConnection();
-        await connection.close();
-    })
+    const newSeason = {
+        season_id: '2020',
+        name: 'New player'
+    }
+
+    const createSeasonController = new CreateSeasonController();
+
+    const request = {
+        body: {
+            name: newSeason.name,
+        }
+    } as Request;
+
+    const response = makeMockResponse();
 
     it('should return a id for a new season', async () => {
-        const createSeasonController = new CreateSeasonController();
-
-        const request = {
-            body: {
-                name: '1900'
-            }
-        } as Request;
-
-        const response = makeMockResponse();
+        mockExecute = jest.fn().mockResolvedValue(newSeason);
 
         await createSeasonController.handle(request, response);
 
-        const connection = getConnection();
-        await connection.createQueryBuilder()
-            .delete()
-            .from(Season)
-            .execute()
-
+        expect(mockExecute).toBeCalled()
         expect(response.state.status).toBe(200)
+        expect(response.state.json).toMatchObject(newSeason)
     })
 
-    it('should return a error when try to create a existing season', async () => {
-        const createSeasonController = new CreateSeasonController();
+    it('should return status 500 when haver server error', async () => {
+        mockExecute = jest.fn().mockImplementation(() => {
+            throw new Error('Error')
+        })
 
-        const request = {
-            body: {
-                name: '1900'
-            }
-        } as Request;
-
-        const response = makeMockResponse();
-
-        await createSeasonController.handle(request, response);
-        const result = await createSeasonController.handle(request, response);
-
-        const connection = getConnection();
-        await connection.createQueryBuilder()
-            .delete()
-            .from(Season)
-            .execute()
-
-        expect(response.state.status).toBe(500)
-        expect(response.state.json).toMatchObject({ message: 'season already exists' })
+        try {
+            await createSeasonController.handle(request, response)
+        } catch (error) {
+            expect(mockExecute).toBeCalled()
+            expect(response.state.status).toBe(500)
+        }
     })
 })
