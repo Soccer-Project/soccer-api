@@ -1,34 +1,43 @@
 import { getConnection } from 'typeorm';
 import createConnection from '../../database';
-import { Player } from '../../entities/Player';
-import { CreatePlayerService } from './CreatePlayerService';
 import { GetOnePlayerService } from './GetOnePlayerService';
 
+jest.mock('../../repositories/PlayerRepository')
+
+const playerRepositoryMock = require('../../repositories/PlayerRepository')
+const getOnePlayerService = new GetOnePlayerService({
+    playerRepository: playerRepositoryMock,
+    playerId: '896fe1b6-5ae4-4da2-a94f-e64d640c09d4'
+})
+
 describe('GetOnePlayerService', () => {
-    beforeAll(async () => {
-        const connection = await createConnection();
-        await connection.runMigrations();
+    
+    beforeEach(async () => {
+        await createConnection()
     })
 
-    afterAll(async () => {
-        const connection = getConnection();
-        await connection.close();
+    afterEach(async () => {
+        const connection = getConnection()
+        await connection.close()
+    })
+    it('Find a existing player', async () => {
+        playerRepositoryMock.findById = jest.fn()
+
+        await getOnePlayerService.execute()
+
+        expect(playerRepositoryMock.findById).toHaveBeenCalled()
     })
 
-    it('should return a player data', async () => {
-        const createPlayerService = new CreatePlayerService()
-        const getOnePlayerService = new GetOnePlayerService()
+    it('Should return a error message when user does not exist', async () => {
+        playerRepositoryMock.findById = jest.fn().mockRejectedValue({
+            findOneReturn: undefined
+        })
 
-        const playerId = await createPlayerService.execute({ name: 'Some player' })
-
-        const response = await getOnePlayerService.execute({ id: playerId[0].player_id })
-
-        await getConnection()
-            .createQueryBuilder()
-            .delete()
-            .from(Player)
-            .execute()
-
-        expect(response).toMatchObject({ 'name': 'Some player' })
+        try {
+            await getOnePlayerService.execute()
+        } catch (error) {
+            expect(error).toMatchObject({mesage: 'Player not found!'})
+        }
     })
+
 })

@@ -1,5 +1,4 @@
 import { getCustomRepository } from 'typeorm';
-import { v4 as uuid } from "uuid";
 import { Player } from '../../entities/Player';
 import { PlayerRepository } from '../../repositories/PlayerRepository';
 

@@ -1,18 +1,30 @@
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import { Player } from '../../entities/Player';
+import { PlayerRepository } from '../../repositories/PlayerRepository';
 
-interface IPlayer {
-    id: string;
+interface IPlayerRepository {
+    playerRepository?: PlayerRepository;
+    playerId: string,
 }
 
 class GetOnePlayerService {
-    async execute({id }: IPlayer){
-        const player = await getRepository(Player)
-            .createQueryBuilder('players')
-            .where("players.player_id = :id", { id: id })
-            .getOne();
+    private playerRepository: PlayerRepository
+    private playerId: string;
 
-        return player
+    constructor({playerRepository = getCustomRepository(PlayerRepository), playerId}: IPlayerRepository) {
+        this.playerRepository = playerRepository;
+        this.playerId = playerId
+    }
+        
+    async execute(){
+        try {
+            const player = await this.playerRepository.findById(this.playerId);
+            console.log(player)
+            return player
+        } catch (error) {
+            console.log(error)
+            return error
+        }
     }
 }
 

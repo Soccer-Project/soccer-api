@@ -29,6 +29,7 @@ describe('PlayerRepository', () => {
         const managerMock = await getManagerMock({
             findOneReturn: playerReturned
         })
+        
         const playerRepository = new PlayerRepository(managerMock);
 
         const player = await playerRepository.findById('896fe1b6-5ae4-4da2-a94f-e64d640c09d4')
