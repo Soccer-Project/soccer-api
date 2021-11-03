@@ -2,5 +2,3 @@ node_modules
 yarn.lock
 build
 .env
-
-Typeorm.test.ts

@@ -1,27 +1,26 @@
-
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import { v4 as uuid } from "uuid";
 import { Player } from '../../entities/Player';
+import { PlayerRepository } from '../../repositories/PlayerRepository';
 
-interface IPlayer {
-    name: string;
+interface IPlayerRepository {
+    playerRepository?: PlayerRepository,
+    name: string,
 }
 
 class CreatePlayerService {
-    async execute({ name }: IPlayer){
-        const player = await getRepository(Player)
-        .createQueryBuilder()
-        .insert()
-        .into(Player)
-        .values([
-            {   
-                player_id: uuid(),
-                name
-            }
-        ])
-        .execute();
+    private playerRepository: PlayerRepository
+    private player: Player;
 
-        return player.identifiers;
+    constructor({playerRepository = getCustomRepository(PlayerRepository), name}: IPlayerRepository) {
+        this.playerRepository = playerRepository;
+        this.player = new Player(name)
+    }
+        
+    async execute(){
+        const player = await this.playerRepository.save(this.player);
+        console.log(player)
+        return player
     }
 }
 
