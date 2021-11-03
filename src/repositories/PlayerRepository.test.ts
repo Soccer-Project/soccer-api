@@ -42,7 +42,7 @@ describe('PlayerRepository', () => {
         expect(player).toMatchObject(playerExpected)
     })
 
-    it('should throw error when not find partner by id', async () => {
+    it('should throw error when not find player by id', async () => {
         const managerMock = await getManagerMock({
             findOneReturn: undefined
         })
@@ -51,6 +51,7 @@ describe('PlayerRepository', () => {
         try {
             await playerRepository.findById('896fe1b6-5ae4-4da2-a94f-e64d640c09d4')
         } catch (error) {
+            expect(managerMock.findOne).toHaveBeenCalled()
             expect(error).toMatchObject({mesage: 'Player not found!'})
         }
     })
