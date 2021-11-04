@@ -5,9 +5,12 @@ class GetAllPlayersDataSeasonController{
     async handle(request: Request, response: Response){
         const getAllPlayersDataService = new GetAllPlayersDataSeasonService();
 
-        const data = await getAllPlayersDataService.execute();
-
-        return response.status(200).json(data)
+        try {
+            const data = await getAllPlayersDataService.execute();
+            return response.status(200).json(data)
+        } catch (error) {
+            return response.status(500).json({message: 'Error'})
+        }
     }
 }
 

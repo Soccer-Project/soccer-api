@@ -1,75 +1,27 @@
-import { getConnection } from 'typeorm';
-import { Request } from 'express';
+import { makeMockRequest } from '../../__mocks__/mockRequest';
 import { makeMockResponse } from '../../__mocks__/mockResponse';
-import createConnection from '../../database';
-import { DataSeason } from '../../entities/DataSeason';
-import { Player } from '../../entities/Player';
-import { Season } from '../../entities/Season';
-import { CreatePlayerService } from '../../services/Player/CreatePlayerService';
-import { CreateSeasonService } from '../../services/Season/CreateSeasonService';
-import { CreateDataSeasonService } from '../../services/DataSeason/CreateDataSeasonService';
 import { GetAllPlayersDataSeasonController } from './GetAllPlayersDataSeasonController'
 
+let mockExecute = jest.fn();
+
+jest.mock('../../services/DataSeason/GetAllPlayersDataSeasonService', () => {
+    return {
+        GetAllPlayersDataSeasonService: jest.fn().mockImplementation(() => {
+            return {
+                execute: mockExecute
+            }
+        })
+    }
+})
+
 describe('GetAllPlayersDataSeasonController', () => {
-    beforeAll(async () => {
-        const connection = await createConnection();
-        await connection.runMigrations();
-    })
+    it('should return status 200 when find players', async () => {
+        const getAllPlayersDataSeasonController = new GetAllPlayersDataSeasonController();
 
-    afterAll(async () => {
-        const connection = getConnection();
-        await connection.close();
-    })
+        const request = makeMockRequest({})
+        const response = makeMockResponse()
 
-    it('should return all data in the database', async () => {
-        const request = {
-            body: {}
-        } as Request;
-
-        const response = makeMockResponse();
-
-        const getAllPlayerDataSeasonController = new GetAllPlayersDataSeasonController();
-
-        const createDataSeasonService = new CreateDataSeasonService();
-
-        const createPlayerService = new CreatePlayerService();
-
-        const getPlayerId = await createPlayerService.execute({ name: 'Some player' })
-        const getPlayerId2 = await createPlayerService.execute({ name: 'Another player' })
-
-        const playerId = getPlayerId[0].player_id
-        const playerId2 = getPlayerId2[0].player_id
-
-        const createSeasonService = new CreateSeasonService();
-
-        const getSeasonId = await createSeasonService.execute({ name: '2000' })
-        const getSeasonId2 = await createSeasonService.execute({ name: '2001' })
-
-        const seasonId = getSeasonId[0].season_id
-        const seasonId2 = getSeasonId2[0].season_id
-
-        await createDataSeasonService.execute({ player_id: playerId, season_id: seasonId, games: 3, goals: 1, assists: 2 });
-        await createDataSeasonService.execute({ player_id: playerId2, season_id: seasonId2, games: 4, goals: 2, assists: 3 });
-
-        await getAllPlayerDataSeasonController.handle(request, response);
-
-        await getConnection()
-            .createQueryBuilder()
-            .delete()
-            .from(DataSeason)
-            .execute()
-
-        await getConnection()
-            .createQueryBuilder()
-            .delete()
-            .from(Season)
-            .execute()
-
-        await getConnection()
-            .createQueryBuilder()
-            .delete()
-            .from(Player)
-            .execute()
+        await getAllPlayersDataSeasonController.handle(request, response)
 
         expect(response.state.status).toBe(200)
     })
