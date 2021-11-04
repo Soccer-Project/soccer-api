@@ -12,6 +12,19 @@ describe('DataSeasonRepository', () => {
         expect(managerMock.save).toHaveBeenCalled()
     })
 
+    it('should return a empty array when no data found', async () => {
+        const managerMock = await getManagerMock({
+            findReturn: []
+        })
+
+        const dataSeasonRepository = new DataSeasonRepository(managerMock)
+
+        const data = await dataSeasonRepository.findByPlayer('5fcd39e2-1187-4a15-bc61-2bb065adc7d5')
+
+        expect(managerMock.find).toHaveBeenCalled()
+        expect(data).toMatchObject([])
+    })
+
     it('should return a player is data when exists', async () => {
         
         const dataSeasonMock = {

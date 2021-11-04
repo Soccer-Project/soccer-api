@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "test": "jest NODE_ENV = 'test'",
+    "test": "jest --coverage NODE_ENV = 'test'",
     "start": "node build/src/index.js && npm ./node_modules/typeorm/cli.js migration:run",
     "build": "tsc "
   },
