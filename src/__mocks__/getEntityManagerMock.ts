@@ -32,13 +32,6 @@ const getEntityManagerMock = async ({
   manager.count = jest.fn().mockImplementation(() => Promise.resolve(countReturn))
   manager.delete = jest.fn().mockImplementation(() => Promise.resolve(deleteReturn))
   manager.findOneOrFail = jest.fn().mockImplementation(() => Promise.resolve(findOneReturn))
-  manager.createQueryBuilder = jest.fn().mockImplementation(() => {
-    return {
-      createQueryBuilder: jest.fn().mockImplementation(() => ({
-        leftJoinAndSelect: jest.fn().mockImplementation(() => jest.fn())
-      }))
-    }
-  })
   manager.transaction = jest.fn().mockImplementation(fn => fn(manager))
 
   return manager

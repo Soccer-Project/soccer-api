@@ -3,9 +3,9 @@ import createConnection from '../../database';
 import { GetOnePlayerAllDataSeasonService } from './GetOnePlayerAllDataSeasonService';
 
 jest.mock('../../repositories/DataSeasonRepository')
-const dataSeasonRepository = require('../../repositories/DataSeasonRepository')
-const getOneAllDataSeasonSeason = new GetOnePlayerAllDataSeasonService({
-    dataSeasonRepository: dataSeasonRepository,
+const dataSeasonRepositoryMock = require('../../repositories/DataSeasonRepository')
+const getOneAllDataSeasonService = new GetOnePlayerAllDataSeasonService({
+    dataSeasonRepository: dataSeasonRepositoryMock,
     playerId: '896fe1b6-5ae4-4da2-a94f-e64d640c09d4'
 })
 
@@ -20,10 +20,10 @@ describe('GetOnePlayerAllDataSeasonService', () => {
     })
 
     it('Find a existing data for player', async () => {
-        dataSeasonRepository.findByPlayer = jest.fn();
+        dataSeasonRepositoryMock.findByPlayer = jest.fn();
 
-        await getOneAllDataSeasonSeason.execute()
+        await getOneAllDataSeasonService.execute()
 
-        expect(dataSeasonRepository.findByPlayer).toHaveBeenCalled()
+        expect(dataSeasonRepositoryMock.findByPlayer).toHaveBeenCalled()
     })    
 })

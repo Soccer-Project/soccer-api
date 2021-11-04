@@ -31,6 +31,24 @@ class DataSeasonRepository {
             return Promise.reject(error)
         }
     }
+
+    getAllPlayer = async(): Promise<Array<DataSeason>> => {
+        try {
+            const data: DataSeason[] = await this.manager.createQueryBuilder(DataSeason, 'dataSeason')
+            .select("SUM(dataSeason.games)", "games")
+            .addSelect("SUM(dataSeason.goals)", "goals")
+            .addSelect("SUM(dataSeason.assists)", "assists")
+            .leftJoinAndSelect('dataSeason.playerId', 'players')
+            .leftJoin('dataSeason.seasonId', 'seasonId')
+            .groupBy('dataSeason.playerId')
+            .getRawMany()
+    
+            console.log(data)
+            return data
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    }
 }
 
 export { DataSeasonRepository }

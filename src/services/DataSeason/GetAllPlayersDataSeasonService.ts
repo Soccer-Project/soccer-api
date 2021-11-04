@@ -1,25 +1,19 @@
 
-import { getRepository } from 'typeorm';
-import { DataSeason } from '../../entities/DataSeason';
+import { getCustomRepository } from 'typeorm';
+import { DataSeasonRepository } from '../../repositories/DataSeasonRepository';
 
 class GetAllPlayersDataSeasonService {
-    async execute(){
-        const data = await getRepository(DataSeason)
-            .createQueryBuilder('dataSeason')
-            .select("SUM(dataSeason.games)", "games")
-            .addSelect("SUM(dataSeason.goals)", "goals")
-            .addSelect("SUM(dataSeason.assists)", "assists")
-            // .select('dataSeason.goals')
-            .leftJoinAndSelect('dataSeason.playerId', 'players')
-            .leftJoin('dataSeason.seasonId', 'seasonId')
-            // .select("SUM(dataSeason.goals)", "sum")
-            .groupBy('dataSeason.playerId')
-            .getRawMany()
+    private dataSeasonRepository: DataSeasonRepository
 
+    constructor(dataSeasonRepository: DataSeasonRepository = getCustomRepository(DataSeasonRepository)){
+        this.dataSeasonRepository = dataSeasonRepository;
+    }
+
+    async execute(){
+        const data = await this.dataSeasonRepository.getAllPlayer();
         console.log(data)
         return data;
     }
-
 }
 
 export { GetAllPlayersDataSeasonService }
