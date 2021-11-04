@@ -1,9 +1,9 @@
-
-import { getRepository } from 'typeorm';
-import { v4 as uuid } from "uuid";
+import { getCustomRepository } from 'typeorm';
 import { DataSeason } from '../../entities/DataSeason';
+import { DataSeasonRepository } from '../../repositories/DataSeasonRepository';
 
-interface IDataSeason {
+interface IDataSeasonRepository {
+    dataSeasonRepository?: DataSeasonRepository,
     player_id: string,
     season_id: string,
     games?: number,
@@ -12,26 +12,26 @@ interface IDataSeason {
 }
 
 class CreateDataSeasonService{
-    async execute({ player_id, season_id, games, goals, assists}: IDataSeason){
-        
-        const dataSeason = await getRepository(DataSeason)
-        .createQueryBuilder()
-        .insert()
-        .into(DataSeason)
-        .values([
-            {   
-                data_season_id: uuid(),
-                player_id: player_id,
-                season_id: season_id,
-                games: games,
-                goals: goals,
-                assists: assists
-            }
-        ])
-        .execute();
 
-        return dataSeason.identifiers;
+    private dataSeasonRepository: DataSeasonRepository
+    private dataSeason: DataSeason
 
+    constructor({
+        dataSeasonRepository = getCustomRepository(DataSeasonRepository),
+        player_id,
+        season_id,
+        games,
+        goals,
+        assists
+    }:IDataSeasonRepository){
+        this.dataSeasonRepository = dataSeasonRepository;
+        this.dataSeason = new DataSeason(player_id, season_id, games, goals, assists)
+    } 
+
+    async execute(){
+        const dataSeason = await this.dataSeasonRepository.save(this.dataSeason)
+        console.log(dataSeason)
+        return dataSeason
     }
 }
 

@@ -11,7 +11,10 @@ class CreatePlayerService {
     private playerRepository: PlayerRepository
     private player: Player;
 
-    constructor({playerRepository = getCustomRepository(PlayerRepository), name}: IPlayerRepository) {
+    constructor({
+        playerRepository = getCustomRepository(PlayerRepository), 
+        name
+    }: IPlayerRepository) {
         this.playerRepository = playerRepository;
         this.player = new Player(name)
     }
