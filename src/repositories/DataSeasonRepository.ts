@@ -23,7 +23,7 @@ class DataSeasonRepository {
             })
 
             if(!dataSeason){
-                throw {mesage: 'No data found!'}
+                throw {message: 'No data found!'}
             }
 
             return dataSeason;

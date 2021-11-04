@@ -36,7 +36,7 @@ describe('GetOnePlayerService', () => {
         try {
             await getOnePlayerService.execute()
         } catch (error) {
-            expect(error).toMatchObject({mesage: 'Player not found!'})
+            expect(error).toMatchObject({message: 'Player not found!'})
         }
     })
 

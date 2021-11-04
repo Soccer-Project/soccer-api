@@ -52,7 +52,7 @@ describe('PlayerRepository', () => {
             await playerRepository.findById('896fe1b6-5ae4-4da2-a94f-e64d640c09d4')
         } catch (error) {
             expect(managerMock.findOne).toHaveBeenCalled()
-            expect(error).toMatchObject({mesage: 'Player not found!'})
+            expect(error).toMatchObject({message: 'Player not found!'})
         }
     })
 })

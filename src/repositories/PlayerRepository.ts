@@ -26,7 +26,7 @@ class PlayerRepository {
             })
 
             if(!player){
-                throw {mesage: 'Player not found!'}
+                throw {message: 'Player not found!'}
             }
 
             return player

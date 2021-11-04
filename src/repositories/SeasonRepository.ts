@@ -23,7 +23,7 @@ class SeasonRepository {
             })
             
             if(!season) {
-                throw {mesage: "Season not found!"};
+                throw {message: "Season not found!"};
             }
 
             return season;

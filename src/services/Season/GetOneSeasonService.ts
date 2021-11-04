@@ -1,20 +1,31 @@
-import {getRepository} from "typeorm";
-import { Season } from "../../entities/Season";
+import { getCustomRepository } from "typeorm";
+import { SeasonRepository } from "../../repositories/SeasonRepository";
 
-interface ISeason {
-    name: string;
+interface ISeasonRepository {
+    seasonRepository?: SeasonRepository;
+    seasonId: string;
 }
 
 class GetOneSeasonService {
-    async execute({ name }: ISeason){
-        const getSeason = await getRepository(Season)
-            .createQueryBuilder('seasons')
-            .where('seasons.name = :name', { name })
-            .getOne()
+    private seasonRepository: SeasonRepository;
+    private seasonId: string;
 
-        return {
-            seasonId: getSeason.season_id,
-            name: getSeason.name
+    constructor({
+        seasonRepository = getCustomRepository(SeasonRepository),
+        seasonId
+    }:ISeasonRepository){
+        this.seasonRepository = seasonRepository;
+        this.seasonId = seasonId
+    }
+
+    async execute(){
+        try {
+            const season = await this.seasonRepository.findById(this.seasonId);
+            console.log(season)
+            return season
+        } catch (error) {
+            console.log(error)
+            return error
         }
     }
 }
