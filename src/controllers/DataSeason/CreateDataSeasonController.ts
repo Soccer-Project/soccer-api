@@ -3,13 +3,18 @@ import { CreateDataSeasonService } from '../../services/DataSeason/CreateDataSea
 
 class CreateDataSeasonController {
     async handle(request: Request, response: Response){
-        const createDataSeasonService = new CreateDataSeasonService();
-        
         const { player_id, season_id, games, goals, assists } = request.body;
 
-        const dataSeason = await createDataSeasonService.execute({ player_id, season_id, games, goals, assists })
+        const createDataSeasonService = new CreateDataSeasonService({
+            player_id, season_id, games, goals, assists
+        });
 
-        return response.status(200).json(dataSeason)
+        try {
+            const dataSeason = await createDataSeasonService.execute()
+            return response.status(200).json(dataSeason)
+        } catch (error) {
+            return response.status(500).json(error)
+        }
     }
 }
 

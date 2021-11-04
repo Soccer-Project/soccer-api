@@ -1,70 +1,62 @@
-import { getConnection } from 'typeorm';
-import { Request } from 'express';
+import { Request, response } from 'express';
 import { makeMockResponse } from '../../__mocks__/mockResponse';
-import createConnection from '../../database';
 import { CreateDataSeasonController } from './CreateDataSeasonController';
-import { CreatePlayerService } from '../../services/Player/CreatePlayerService';
-import { CreateSeasonService } from '../../services/Season/CreateSeasonService';
-import { DataSeason } from '../../entities/DataSeason';
-import { Season } from '../../entities/Season';
-import { Player } from '../../entities/Player';
+
+let mockExecute = jest.fn();
+
+jest.mock('../../services/DataSeason/CreateDataSeasonService', () => {
+    return {
+        CreateDataSeasonService: jest.fn().mockImplementation(() => {
+            return {
+                execute: mockExecute
+            }
+        })
+    }
+})
 
 describe('CreateDataSeasonController', () => {
-    beforeAll(async () => {
-        const connection = await createConnection();
-        await connection.runMigrations();
-    })
+    
+    const newData = {
+        player_id: '1892c556-7c47-489a-818a-8cbb10b6b346',
+        season_id: '896fe1b6-5ae4-4da2-a94f-e64d640c09d4',
+        games: 3,
+        goals: 2,
+        assists:1
+    }
 
-    afterAll(async () => {
-        const connection = getConnection();
-        await connection.close();
-    })
+    const createDataSeasonController = new CreateDataSeasonController();
 
-    it('should return a id when a data add to season is successful', async () => {
-        const createDataSeasonController = new CreateDataSeasonController();
+    const request = {
+        body: {
+            player_id: newData.player_id, 
+            season_id: newData.season_id, 
+            games: newData.games,
+            goals: newData.goals,
+            assists: newData.assists,
+        }
+    } as Request;
 
-        const createPlayerService = new CreatePlayerService();
+    const response = makeMockResponse();
 
-        const getPlayerId = await createPlayerService.execute({ name: 'Some player' })
-
-        const playerId = getPlayerId[0].player_id
-
-        const createSeasonService = new CreateSeasonService();
-
-        const getSeasonId = await createSeasonService.execute({ name: '1800' })
-
-        const seasonId = getSeasonId[0].season_id
-
-        const request = {
-            body: {
-                player_id: playerId,
-                season_id: seasonId,
-                games: 3,
-                goals: 1,
-                assists: 2
-            }
-        } as Request;
-
-        const response = makeMockResponse();
+    it('should return status 200 when add data', async () => {
+        mockExecute = jest.fn()
 
         await createDataSeasonController.handle(request, response)
 
-        const connection = getConnection();
-        await connection.createQueryBuilder()
-            .delete()
-            .from(DataSeason)
-            .execute()
-
-        await connection.createQueryBuilder()
-            .delete()
-            .from(Season)
-            .execute()
-
-        await connection.createQueryBuilder()
-            .delete()
-            .from(Player)
-            .execute()
-
+        expect(mockExecute).toBeCalled()
         expect(response.state.status).toBe(200)
+    })
+
+    it('should return status 500 when have server error', async () => {
+        mockExecute = jest.fn().mockImplementation(() => {
+            throw new Error('Error')
+        })
+
+        try {
+            await createDataSeasonController.handle(request, response)   
+        } catch (error) {
+            expect(mockExecute).toBeCalled()
+            expect(response.state.status).toBe(500)
+        }
     })
 })
