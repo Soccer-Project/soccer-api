@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
 
-import { router } from './utils/routes';
+import { router } from './utils/routes/routes';
 import createConnection from'./database';
 
 createConnection();

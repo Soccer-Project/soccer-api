@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { CreateDataSeasonController } from "../controllers/DataSeason/CreateDataSeasonController";
-import { GetAllPlayersDataSeasonController } from "../controllers/DataSeason/GetAllPlayersDataSeasonController";
-import { GetOnePlayerAllDataSeasonController } from "../controllers/DataSeason/GetOnePlayerAllDataSeasonController";
+import { CreateDataSeasonController } from "../../controllers/DataSeason/CreateDataSeasonController";
+import { GetAllPlayersDataSeasonController } from "../../controllers/DataSeason/GetAllPlayersDataSeasonController";
+import { GetOnePlayerAllDataSeasonController } from "../../controllers/DataSeason/GetOnePlayerAllDataSeasonController";
 
-import { MessageController } from '../controllers/MessageController'
-import { CreatePlayerController } from "../controllers/Player/CreatePlayerController";
-import { GetAllPlayerController } from "../controllers/Player/GetAllPlayerController";
-import { CreateSeasonController } from "../controllers/Season/CreateSeasonController";
-import { AuthenticateUserController } from "../controllers/User/AuthenticateUserController";
+import { MessageController } from '../../controllers/MessageController'
+import { CreatePlayerController } from "../../controllers/Player/CreatePlayerController";
+import { GetAllPlayerController } from "../../controllers/Player/GetAllPlayerController";
+import { CreateSeasonController } from "../../controllers/Season/CreateSeasonController";
+import { AuthenticateUserController } from "../../controllers/User/AuthenticateUserController";
 
 const router = Router();
 
