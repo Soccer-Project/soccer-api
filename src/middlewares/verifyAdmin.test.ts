@@ -10,7 +10,7 @@ describe('verifyAdmin', () => {
     it('should call NextFunction if user is admin', async () => {
 
         const request = makeMockRequest({
-            admin: true,
+            userId: '896fe1b6-5ae4-4da2-a94f-e64d640c09d4',
         })
 
         verifyAdmin(request, response, nextFunction)

@@ -5,8 +5,6 @@ class AuthenticateUserController {
     async handle(request: Request, response: Response){
         const { name, password } = request.body
 
-        console.log(name, password)
-
         const authenticateUserService = new AuthenticateUserService({name, password});
 
         try {

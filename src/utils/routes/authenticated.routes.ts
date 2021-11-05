@@ -4,6 +4,7 @@ import { CreatePlayerController } from "../../controllers/Player/CreatePlayerCon
 import { CreateSeasonController } from "../../controllers/Season/CreateSeasonController";
 
 import { verifyAdmin } from "../../middlewares/verifyAdmin";
+import { verifyAuthenticated } from "../../middlewares/verifyAuthenticated";
 
 const authenticatedRouter = Router();
 
@@ -12,7 +13,7 @@ const createPlayerController = new CreatePlayerController();
 const createSeasonController = new CreateSeasonController();
 const createDataSeasonController = new CreateDataSeasonController();
 
-authenticatedRouter.use(verifyAdmin)
+authenticatedRouter.use(verifyAuthenticated, verifyAdmin)
 authenticatedRouter.post('/player', createPlayerController.handle)
 authenticatedRouter.post('/season', createSeasonController.handle)
 authenticatedRouter.post('/season/data', createDataSeasonController.handle)

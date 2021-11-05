@@ -15,12 +15,14 @@ export function verifyAuthenticated(request: Request, response: Response, next: 
         try{
             const { sub } = verify(token, process.env.TOKEN) as IPayload
             request.userId = sub
-            next();
+            return next();
         } catch(error){
             console.log(error)
             return response.status(401)
         }
     }
 
-    return response.status(401)
+    return response.status(401).json({
+        error: "User not authorized"
+    })
 }
