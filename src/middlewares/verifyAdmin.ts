@@ -4,8 +4,6 @@ export function verifyAdmin(request: Request, response: Response, next: NextFunc
 
     const admin = request.params
 
-    console.log(admin)
-
     if(admin){
         next()    
     }
@@ -13,6 +11,4 @@ export function verifyAdmin(request: Request, response: Response, next: NextFunc
     return response.status(401).json({
         error: "User not authorized"
     })
-
-    
 }
