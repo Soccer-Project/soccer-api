@@ -4,8 +4,6 @@ import { GetOnePlayerAllDataSeasonService } from '../../services/DataSeason/GetO
 class GetOnePlayerAllDataSeasonController {
     async handle(request: Request, response: Response){
         const { playerId } = request.params;
-
-        console.log(playerId);
         
         const getOnePlayerAllDataSeasonService = new GetOnePlayerAllDataSeasonService({ playerId });
 

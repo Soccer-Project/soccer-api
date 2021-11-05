@@ -1,5 +1,5 @@
 import { getCustomRepository } from "typeorm";
-import jwt from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import { UserRepository } from "../../repositories/UserRepository";
 
 interface IAuthenticateRequest {
@@ -27,22 +27,22 @@ class AuthenticateUserService{
         try {
             const user = await this.userRepository.findByName(this.name, this.password);
 
-            if(user.name === undefined){
-                throw new Error('Not authorize!')
+            if(user[0] === undefined){
+                throw {message: 'Not authenticated!'}
             }
 
-            const token = jwt.sign({
-                name: user.name,
+            const token = sign({
+                name: user[0].name,
             }, process.env.TOKEN,
             {
-                subject: user.user_id,
+                subject: user[0].user_id,
                 expiresIn: "1h"
             })
 
             return token
         } catch (error) {
             console.log(error)
-            return error
+            throw new Error(error.message)
         }
     }
 }

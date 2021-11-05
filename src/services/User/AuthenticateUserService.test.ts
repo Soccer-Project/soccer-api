@@ -35,23 +35,22 @@ describe('AuthenticateUserService', () => {
     })
 
     it('should return a user authenticated', async () => {
-        userRepositoryMock.findByName = jest.fn().mockResolvedValueOnce({
+        userRepositoryMock.findByName = jest.fn().mockResolvedValueOnce([{
             user_id: 'a38e3f47-a1ee-4a17-b32b-2d732debd6b8',
-            name: 'Some user'
-        })
+            name: 'Some user',
+            password: 'pa55w0rd',
+            admin: true
+        }])
 
         await authenticateUserService.execute()
 
         expect(userRepositoryMock.findByName).toHaveBeenCalled()
+
     })
 
     it('should return a error when user does not authenticated', async ()=>{
         userRepositoryMock.findByName = jest.fn().mockResolvedValueOnce([])
 
-        try {
-            await authenticateUserService.execute()
-        } catch (error) {
-            expect(error).toBe('Error: Not authorize!');
-        }
+        await expect(authenticateUserService.execute()).rejects.toThrowError()
     })
 })

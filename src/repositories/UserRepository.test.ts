@@ -18,29 +18,29 @@ describe('UserRepository', () => {
     it('should return a user admin when name and password match', async () => {
         
         const managerMock = await getManagerMock({
-            findOneReturn: userReturned
+            findReturn: [userReturned]
         })
 
         const userRepository = new UserRepository(managerMock);
 
         const user = await userRepository.findByName(userReturned.name, userReturned.password)
 
-        expect(managerMock.findOne).toHaveBeenCalled()
-        expect(user).toMatchObject(userExpected)
+        expect(managerMock.find).toHaveBeenCalled()
+        expect(user).toMatchObject([userExpected])
     })
 
     it('should return a empty array when user not is admin', async () => {
         userReturned.admin = false
 
         const managerMock = await getManagerMock({
-            findOneReturn: []
+            findReturn: []
         })
 
         const userRepository = new UserRepository(managerMock);
 
         const user = await userRepository.findByName(userReturned.name, userReturned.password)
 
-        expect(managerMock.findOne).toHaveBeenCalled()
+        expect(managerMock.find).toHaveBeenCalled()
         expect(user).toMatchObject([])
     })
 
@@ -48,14 +48,14 @@ describe('UserRepository', () => {
         userReturned.password = '1234'
 
         const managerMock = await getManagerMock({
-            findOneReturn: []
+            findReturn: []
         })
 
         const userRepository = new UserRepository(managerMock);
 
         const user = await userRepository.findByName(userExpected.name, userExpected.password)
 
-        expect(managerMock.findOne).toHaveBeenCalled()
+        expect(managerMock.find).toHaveBeenCalled()
         expect(user).toMatchObject([])
     })
 
@@ -63,14 +63,14 @@ describe('UserRepository', () => {
         userReturned.name = 'Another user'
 
         const managerMock = await getManagerMock({
-            findOneReturn: []
+            findReturn: []
         })
 
         const userRepository = new UserRepository(managerMock);
 
         const user = await userRepository.findByName(userExpected.name, userExpected.password)
 
-        expect(managerMock.findOne).toHaveBeenCalled()
+        expect(managerMock.find).toHaveBeenCalled()
         expect(user).toMatchObject([])
     })
 })

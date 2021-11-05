@@ -7,6 +7,7 @@ import { MessageController } from '../controllers/MessageController'
 import { CreatePlayerController } from "../controllers/Player/CreatePlayerController";
 import { GetAllPlayerController } from "../controllers/Player/GetAllPlayerController";
 import { CreateSeasonController } from "../controllers/Season/CreateSeasonController";
+import { AuthenticateUserController } from "../controllers/User/AuthenticateUserController";
 
 const router = Router();
 
@@ -17,6 +18,7 @@ const createSeasonController = new CreateSeasonController();
 const createDataSeasonController = new CreateDataSeasonController();
 const getAllPlayerDataSeasonController = new GetAllPlayersDataSeasonController();
 const getOnePlayerAllDataSeasonController = new GetOnePlayerAllDataSeasonController();
+const authenticateUserController = new AuthenticateUserController();
 
 router.get('/', messageController.handle)
 router.get('/players', getAllPlayerDataSeasonController.handle)
@@ -25,5 +27,6 @@ router.get('/players/:playerId', getOnePlayerAllDataSeasonController.handle )
 router.post('/player', createPlayerController.handle)
 router.post('/season', createSeasonController.handle)
 router.post('/season/data', createDataSeasonController.handle)
+router.post('/authuser', authenticateUserController.handle)
 
 export { router }

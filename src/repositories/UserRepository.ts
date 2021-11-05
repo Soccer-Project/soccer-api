@@ -9,19 +9,14 @@ class UserRepository{
         this.manager = manager;
     }
 
-    findByName = async (name: string, password: string): Promise<User> => {
+    findByName = async (name: string, password: string): Promise<Array<User>> => {
         try {
-            const user: User = await this.manager.findOne(User, {
+            const user: User[] = await this.manager.find(User, {
                 where: { 
                     name: name,
-                    password: password,
-                    admin: true
+                    password: password
                 }
             })
-
-            if(!user){
-                throw {message: "User not found!"}
-            }
 
             return user;
         } catch (error) {
