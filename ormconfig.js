@@ -7,10 +7,10 @@ module.exports = {
     "password": process.env.DATABASE_PASSWORD,
     "database": process.env.DATABASE_NAME,
     "entities": [
-        `${process.env.NODE_ENV === "production" ? "./build" : "./src" }/entities/*${process.env.NODE_ENV === "production" ? ".js" : ".ts"}`,
+        `src/entities/*${process.env.NODE_ENV === "production" ? ".js" : ".ts"}`,
     ],
     "migrations": [
-        `${process.env.NODE_ENV === "production" ? "./build" : "./src" }/database/migrations/*${process.env.NODE_ENV === "production" ? ".js" : ".ts"}`,
+        `src/database/migrations/*${process.env.NODE_ENV === "production" ? ".js" : ".ts"}`,
     ],
     "cli": {
         "migrationsDir": "./src/database/migrations",
