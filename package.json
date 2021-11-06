@@ -7,7 +7,7 @@
     "dev": "ts-node-dev src/index.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "test": "jest --coverage NODE_ENV = 'test'",
-    "start": "npm i && node build/src/index.js",
+    "start": "node build/src/index.js",
     "build": "tsc "
   },
   "keywords": [],
