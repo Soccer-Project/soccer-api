@@ -9,28 +9,28 @@ export class DataSeason1635416972480 implements MigrationInterface {
                 columns: [
                     {
                         name: 'data_season_id',
-                        type: 'string',
+                        type: 'varchar',
                         isPrimary: true
                     },
                     {
                         name: 'player_id',
-                        type: 'string',
+                        type: 'varchar',
                     },
                     {
                         name: 'season_id',
-                        type: 'string',
+                        type: 'varchar',
                     },
                     {
                         name: 'games',
-                        type: 'number',
+                        type: 'integer',
                     },
                     {
                         name: 'goals',
-                        type: 'number',
+                        type: 'integer',
                     },
                     {
                         name: 'assists',
-                        type: 'number',
+                        type: 'integer',
                     }
                 ],
                 foreignKeys: [
@@ -38,17 +38,13 @@ export class DataSeason1635416972480 implements MigrationInterface {
                         name: 'FKPlayerID',
                         referencedTableName: 'players',
                         referencedColumnNames: ['player_id'],
-                        columnNames: ['player_id'],
-                        onDelete: "SET NULL",
-                        onUpdate: "SET NULL"
+                        columnNames: ['player_id']
                     },
                     {
                         name: 'FKSeasonID',
                         referencedTableName: 'seasons',
                         referencedColumnNames: ['season_id'],
-                        columnNames: ['season_id'],
-                        onDelete: "SET NULL",
-                        onUpdate: "SET NULL"
+                        columnNames: ['season_id']
                     }
                 ]
             })

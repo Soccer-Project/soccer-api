@@ -9,12 +9,12 @@ export class Season1635390163974 implements MigrationInterface {
                 columns: [
                     {
                         name: 'season_id',
-                        type: 'string',
+                        type: 'varchar',
                         isPrimary: true,
                     },
                     {
                         name: 'name',
-                        type: 'string',
+                        type: 'varchar',
                         isUnique: true,
                     },
                 ]

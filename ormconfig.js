@@ -1,11 +1,15 @@
 module.exports = {
-    "type": "sqlite",
-    "database": `${proces.env.NODE_ENV === "production" ? "./dist" : "./src" }/database/database.sqlite`,
+    "type": "mysql",
+    "host": process.env.DATABASE_HOST,
+    "port": 3306,
+    "username": process.env.DATABASE_USER,
+    "password": process.env.DATABASE_PASSWORD,
+    "database": process.env.DATABASE_NAME,
     "entities": [
-        `${proces.env.NODE_ENV === "production" ? "./dist" : "./src" }/entities/*${proces.env.NODE_ENV === "production" ? ".js" : ".ts"}`,
+        `${process.env.NODE_ENV === "production" ? "./dist" : "./src" }/entities/*${process.env.NODE_ENV === "production" ? ".js" : ".ts"}`,
     ],
     "migrations": [
-        `${proces.env.NODE_ENV === "production" ? "./dist" : "./src" }/database/migrations/*${proces.env.NODE_ENV === "production" ? ".js" : ".ts"}`,
+        `${process.env.NODE_ENV === "production" ? "./dist" : "./src" }/database/migrations/*${process.env.NODE_ENV === "production" ? ".js" : ".ts"}`,
     ],
     "cli": {
         "migrationsDir": "./src/database/migrations",

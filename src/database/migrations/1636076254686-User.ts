@@ -9,12 +9,12 @@ export class User1636076254686 implements MigrationInterface {
                 columns: [
                     { 
                         name: 'user_id',
-                        type: 'string',
+                        type: 'varchar',
                         isPrimary: true,
                     },
                     {
                         name: 'name',
-                        type: 'string',
+                        type: 'varchar',
                         isUnique: true,
                         isNullable: false
                     },
@@ -26,7 +26,7 @@ export class User1636076254686 implements MigrationInterface {
                     },
                     {
                         name: 'password',
-                        type: 'string',
+                        type: 'varchar',
                         isNullable: false,
                     }
                 ]

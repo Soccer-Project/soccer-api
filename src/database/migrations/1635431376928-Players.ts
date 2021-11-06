@@ -9,12 +9,12 @@ export class Players1635431376928 implements MigrationInterface {
                 columns: [
                     { 
                         name: 'player_id',
-                        type: 'string',
+                        type: 'varchar',
                         isPrimary: true,
                     },
                     {
                         name: 'name',
-                        type: 'string',
+                        type: 'varchar',
                     }
                 ]
             })
