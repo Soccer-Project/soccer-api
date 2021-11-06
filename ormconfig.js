@@ -10,7 +10,7 @@ module.exports = {
         `build/entities/*.js}`,
     ],
     "migrations": [
-        `buil/database/migrations/*.js`,
+        `build/database/migrations/*.js`,
     ],
     "cli": {
         "migrationsDir": "./src/database/migrations",
