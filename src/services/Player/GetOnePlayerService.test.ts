@@ -1,5 +1,6 @@
 import { getConnection } from 'typeorm';
 import createConnection from '../../database';
+import { Player } from '../../entities/Player';
 import { GetOnePlayerService } from './GetOnePlayerService';
 
 jest.mock('../../repositories/PlayerRepository')
@@ -11,6 +12,10 @@ const getOnePlayerService = new GetOnePlayerService({
 })
 
 describe('GetOnePlayerService', () => {
+
+    const playerMock: Player = new Player()
+    playerMock.player_id = 'de29478c-c051-4ee9-b48d-e087ec3cbf80'
+    playerMock.name = 'Some player'
     
     beforeEach(async () => {
         await createConnection()
@@ -21,11 +26,12 @@ describe('GetOnePlayerService', () => {
         await connection.close()
     })
     it('Find a existing player', async () => {
-        playerRepositoryMock.findById = jest.fn()
+        playerRepositoryMock.findById = jest.fn().mockImplementation(() => Promise.resolve([playerMock]))
 
-        await getOnePlayerService.execute()
+        const player = await getOnePlayerService.execute()
 
         expect(playerRepositoryMock.findById).toHaveBeenCalled()
+        expect(player).toMatchObject([playerMock])
     })
 
     it('Should return a error message when user does not exist', async () => {
