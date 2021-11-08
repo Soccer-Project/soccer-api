@@ -3,13 +3,33 @@ import { DataSeasonRepository } from './DataSeasonRepository';
 import getManagerMock from '../__mocks__/getEntityManagerMock';
 
 describe('DataSeasonRepository', () => {
-    it('should call save method', async () => {
-        const managerMock = await getManagerMock({})
+    it('should call save method and return a data saved', async () => {
+        const mockDataSeason: DataSeason = {
+            data_season_id: '896fe1b6-5ae4-4da2-a94f-e64d640c09d4',
+            player_id: '5fcd39e2-1187-4a15-bc61-2bb065adc7d5',
+            season_id: '6695a631-d1a6-4f45-8f81-afb33e496468',
+            games: 3,
+            goals: 2,
+            assists: 1,
+            playerId: {
+                player_id: '5fcd39e2-1187-4a15-bc61-2bb065adc7d5',
+                name: 'Some player'
+            },
+            seasonId: {
+                season_id: '6695a631-d1a6-4f45-8f81-afb33e496468',
+                name: '2020'
+            }
+        }
+        
+        const managerMock = await getManagerMock({
+            saveReturn: mockDataSeason
+        })
         const dataSeasonRepository = new DataSeasonRepository(managerMock)
 
-        dataSeasonRepository.save(new DataSeason())
+        const data = await dataSeasonRepository.save(new DataSeason())
 
         expect(managerMock.save).toHaveBeenCalled()
+        expect(data).toMatchObject(mockDataSeason)
     })
 
     it('should return a empty array when no data found', async () => {
