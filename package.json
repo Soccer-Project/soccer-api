@@ -2,13 +2,14 @@
   "name": "soccer-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "test": "jest --coverage NODE_ENV = 'test'",
-    "start": "node build/src/index.js",
-    "build": "tsc "
+    "start": "node ./build/index.js",
+    "build": "NODE_ENV=production tsc --target es2017 --experimentalDecorators --emitDecoratorMetadata",
+    "build: babel": "babel src --extensions \".js,.ts\" --out-dir build --copy-files --no-copy-ignored"
   },
   "keywords": [],
   "author": "",
@@ -26,11 +27,19 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/plugin-proposal-decorators": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-typescript": "^7.16.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.0.2",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/uuid": "^8.3.1",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "jest": "^27.3.1",
     "ts-jest": "^27.0.7"
   }

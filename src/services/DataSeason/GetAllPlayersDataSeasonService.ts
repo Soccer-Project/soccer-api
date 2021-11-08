@@ -5,7 +5,7 @@ import { DataSeasonRepository } from '../../repositories/DataSeasonRepository';
 class GetAllPlayersDataSeasonService {
     private dataSeasonRepository: DataSeasonRepository
 
-    constructor(dataSeasonRepository: DataSeasonRepository = getCustomRepository(DataSeasonRepository)){
+    constructor(dataSeasonRepository = getCustomRepository(DataSeasonRepository)){
         this.dataSeasonRepository = dataSeasonRepository;
     }
 

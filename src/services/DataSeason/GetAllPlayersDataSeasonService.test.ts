@@ -2,9 +2,9 @@ import { getConnection } from 'typeorm';
 import createConnection from '../../database';
 import { GetAllPlayersDataSeasonService } from './GetAllPlayersDataSeasonService';
 
-// jest.mock('../../repositories/DataSeasonRepository')
-// const dataSeasonRepositoryMock = require('../../repositories/DataSeasonRepository')
-// const getAllPlayersDataSeasonService = new GetAllPlayersDataSeasonService();
+jest.mock('../../repositories/DataSeasonRepository')
+const dataSeasonRepositoryMock = require('../../repositories/DataSeasonRepository')
+const getAllPlayersDataSeasonService = new GetAllPlayersDataSeasonService(dataSeasonRepositoryMock);
 
 describe('GetAllPlayersDataSeasonService', () => {
 
@@ -18,17 +18,10 @@ describe('GetAllPlayersDataSeasonService', () => {
     })
 
     it('return all data of all players', async () => {
-        const expectedResponse = {
-            players_name: 'Some Player',
-            games: 4,
-            goals: 4,
-            assists: 4
-        }
+        dataSeasonRepositoryMock.getAllPlayer = jest.fn()
 
-        const getAllPlayersDataSeasonService = new GetAllPlayersDataSeasonService();
+        await getAllPlayersDataSeasonService.execute()
 
-        const result = await getAllPlayersDataSeasonService.execute()
-
-        expect(result).toMatchObject([expectedResponse])
+        expect(dataSeasonRepositoryMock.getAllPlayer).toHaveBeenCalled()
     })
 })

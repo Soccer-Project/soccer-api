@@ -3,53 +3,65 @@ import getManagerMock from '../__mocks__/getEntityManagerMock'
 import { PlayerRepository } from './PlayerRepository'
 
 describe('PlayerRepository', () => {
-    it('should call getAll method', async () => {
-        const managerMock = await getManagerMock({})
+
+    const playerMock: Player = new Player()
+    playerMock.player_id = 'de29478c-c051-4ee9-b48d-e087ec3cbf80'
+    playerMock.name = 'Some player'
+
+    const otherPlayerMock: Player = new Player()
+    otherPlayerMock.player_id = 'fg1234-c051-4ee9-b48d-e087ec3cbf78'
+    otherPlayerMock.name = 'Other player'
+
+    it('should call getAll method and return all players', async () => {
+        const managerMock = await getManagerMock({
+            findReturn: [ playerMock, otherPlayerMock ]
+        })
+
         const playerRepository = new PlayerRepository(managerMock);
 
-        playerRepository.getAll()
+        const result = await playerRepository.getAll()
 
         expect(managerMock.find).toHaveBeenCalled()
+        expect(result).toMatchObject([playerMock, otherPlayerMock])
     })
 
-    it('should call save method', async () => {
-        const managerMock = await getManagerMock({})
+    it('should call save method and return a player created', async () => {
+        const managerMock = await getManagerMock({
+            saveReturn: {
+                player_id: playerMock.player_id,
+                name: playerMock.name
+            }
+        })
+
         const playerRepository = new PlayerRepository(managerMock);
 
-        playerRepository.save(new Player())
+        const player = await playerRepository.save(playerMock)
 
         expect(managerMock.save).toHaveBeenCalled()
+        expect(player).toMatchObject(playerMock)
     })
 
-    it('should return a player when exists', async () => {
-        const playerReturned = new Player();
-        playerReturned.player_id = '896fe1b6-5ae4-4da2-a94f-e64d640c09d4'
-        playerReturned.name = 'Some player'
-
+    it('should call findOne method and return a player when exists', async () => {
         const managerMock = await getManagerMock({
-            findOneReturn: playerReturned
+            findOneReturn: playerMock
         })
         
         const playerRepository = new PlayerRepository(managerMock);
 
-        const player = await playerRepository.findById('896fe1b6-5ae4-4da2-a94f-e64d640c09d4')
-
-        const playerExpected = new Player();
-        playerExpected.player_id = '896fe1b6-5ae4-4da2-a94f-e64d640c09d4'
-        playerExpected.name = 'Some player'
+        const player = await playerRepository.findById(playerMock.player_id)
 
         expect(managerMock.findOne).toHaveBeenCalled()
-        expect(player).toMatchObject(playerExpected)
+        expect(player).toMatchObject(playerMock)
     })
 
-    it('should throw error when not find player by id', async () => {
+    it('should call findOne method throw error when not find player by id', async () => {
         const managerMock = await getManagerMock({
             findOneReturn: undefined
         })
         const playerRepository = new PlayerRepository(managerMock);
 
         try {
-            await playerRepository.findById('896fe1b6-5ae4-4da2-a94f-e64d640c09d4')
+            await playerRepository.findById('wr0ng-1d3nt1f13r')
         } catch (error) {
             expect(managerMock.findOne).toHaveBeenCalled()
             expect(error).toMatchObject({message: 'Player not found!'})

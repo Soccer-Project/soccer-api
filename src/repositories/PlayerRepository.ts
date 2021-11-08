@@ -10,7 +10,8 @@ class PlayerRepository {
     }
 
     getAll = async (): Promise<Array<Player>> => {
-        return this.manager.find(Player)
+        const players: Player[] = await this.manager.find(Player)
+        return players
     }
 
     save = async (player: Player): Promise<Player> => {
