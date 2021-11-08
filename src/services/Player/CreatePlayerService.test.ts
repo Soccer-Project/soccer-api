@@ -8,7 +8,7 @@ jest.mock('../../repositories/PlayerRepository')
 const playerRepositoryMock = require('../../repositories/PlayerRepository')
 const createPlayerService = new CreatePlayerService({
     playerRepository: playerRepositoryMock,
-    name: 'Player'
+    name: 'Some player'
 })
 
 describe('CreatePlayerService', () => {

@@ -26,7 +26,8 @@ describe('GetOnePlayerService', () => {
         await connection.close()
     })
     it('Find a existing player', async () => {
-        playerRepositoryMock.findById = jest.fn().mockImplementation(() => Promise.resolve([playerMock]))
+        playerRepositoryMock.findById = jest.fn()
+            .mockImplementation(() => Promise.resolve([playerMock]))
 
         const player = await getOnePlayerService.execute()
 
