@@ -3,48 +3,50 @@ import getManagerMock from '../__mocks__/getEntityManagerMock'
 import { Season } from '../entities/Season';
 
 describe('SeasonRepository', () => {
-    it('should call getAll method', async () => {
-        const managerMock = await getManagerMock({});
+
+    const seasonMock: Season = new Season()
+    seasonMock.season_id = 'de29478c-c051-4ee9-b48d-e087ec3cbf80'
+    seasonMock.name = '2020'
+
+    const otherSeasonMock: Season = new Season()
+    otherSeasonMock.season_id = 'fg1234-c051-4ee9-b48d-e087ec3cbf78'
+    otherSeasonMock.name = '2021'
+    it('should call getAll method and return all season', async () => {
+        const managerMock = await getManagerMock({
+            findReturn: [ seasonMock, otherSeasonMock ]
+        });
+
         const seasonRepository = new SeasonRepository(managerMock);
 
-        seasonRepository.getAll()
+        const result = await seasonRepository.getAll()
 
         expect(managerMock.find).toHaveBeenCalled()
+        expect(result).toMatchObject([seasonMock, otherSeasonMock])
     })
 
-    it('should call save method', async () => {
-        const managerMock = await getManagerMock({});
+    it('should call save method and return a season created', async () => {
+        const managerMock = await getManagerMock({
+            saveReturn: seasonMock
+        });
         const seasonRepository = new SeasonRepository(managerMock);
 
-        seasonRepository.save(new Season())
+        const season = await seasonRepository.save(seasonMock);
 
         expect(managerMock.save).toHaveBeenCalled()
+        expect(season).toMatchObject(seasonMock);
     })
 
     it('should return a season when exist', async () => {
-        const mockSeason = {
-            season_id: '896fe1b6-5ae4-4da2-a94f-e64d640c09d4',
-            name: '2020'
-        }
-        
-        const seasonReturned = new Season();
-        seasonReturned.season_id = mockSeason.season_id
-        seasonReturned.name = mockSeason.name
-
         const managerMock = await getManagerMock({
-            findOneReturn: seasonReturned
+            findOneReturn: seasonMock
         })
 
         const seasonRepository = new SeasonRepository(managerMock)
 
-        const season = await seasonRepository.findById(mockSeason.season_id)
-
-        const seasonExpected = new Season()
-        seasonExpected.season_id = mockSeason.season_id
-        seasonExpected.name = mockSeason.name
+        const season = await seasonRepository.findById(seasonMock.season_id)
 
         expect(managerMock.findOne).toHaveBeenCalled()
-        expect(season).toMatchObject(seasonExpected)
+        expect(season).toMatchObject(seasonMock)
     })
 
     it('should trhow error when not find season by id', async () => {
