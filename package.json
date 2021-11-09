@@ -4,10 +4,10 @@
   "description": "My webpack project",
   "main": "build/index.js",
   "scripts": {
-    "dev": "NODE_ENV = 'dev' ts-node-dev src/index.ts",
+    "dev": "ts-node-dev src/index.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "test": "jest --coverage NODE_ENV = 'test'",
-    "start": "node ./build/index.js",
+    "start": "yarn build && node ./build/index.js",
     "build": "tsc"
   },
   "keywords": [],
