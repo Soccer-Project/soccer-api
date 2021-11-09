@@ -7,12 +7,14 @@ module.exports = {
     "password": process.env.DATABASE_PASSWORD,
     "database": process.env.DATABASE_NAME,
     "entities": [
-        "dist/src/entities/*{.ts,.js}",
-        "src/entities/*{.ts,.js}"
+        process.env.NODE_ENV === 'dev' ?
+            "src/entities/*.ts" :
+            "build/entities/*.js"
     ],
     "migrations": [
-        "distsrc/database/migrations/*{.ts,.js}",
-        "src/database/migrations/*{.ts,.js}"
+        process.env.NODE_ENV === 'dev' ?
+            "src/database/migrations/*.ts" :
+            "build/database/migrations/*.js"
     ],
     "cli": {
         "migrationsDir": "./src/database/migrations",
