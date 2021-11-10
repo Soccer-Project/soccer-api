@@ -25,8 +25,7 @@ class DataSeasonRepository {
             if(!dataSeason){
                 throw {message: 'No data found!'}
             }
-
-            console.log(dataSeason)
+            
             return dataSeason;
         } catch (error) {
             return Promise.reject(error)
