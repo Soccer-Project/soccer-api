@@ -8,4 +8,4 @@ WORKDIR /
 
 CMD npm install && npm build && npm start
 
-EXPOSE 3306
+EXPOSE 3000
