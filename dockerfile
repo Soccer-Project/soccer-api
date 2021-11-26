@@ -2,10 +2,12 @@ FROM node:14.17-alpine
 
 RUN apk add --no-cache bash
 
-COPY ./ ./
+RUN mkdir -p /soccer-api
 
-WORKDIR /
+WORKDIR /soccer-api
+ADD . /soccer-api
 
-CMD npm install && npm build && npm start
+RUN yarn && yarn build
 
+CMD [ "yarn", "start" ]
 EXPOSE 5000

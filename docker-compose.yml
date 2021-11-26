@@ -4,6 +4,8 @@ services:
     image: mysql:5.7
     container_name: "database"
     command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db-data:/var/lib/mysql
     ports:
       - 3306:3306
     restart: always
@@ -24,3 +26,6 @@ services:
       DATABASE_NAME: testdb
     depends_on:
       - database
+
+volumes:
+  db-data: {}

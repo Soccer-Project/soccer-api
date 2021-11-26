@@ -1,6 +1,5 @@
 node_modules
 coverage
-yarn.lock
 yarn-error.log
 build
 .env
