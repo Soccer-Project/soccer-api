@@ -6,7 +6,7 @@ const server = axios.create({
 
 describe('/players', () => {
     
-    it('Should return status 200 and list of players', async () => {
+    it('Should return status 200 and list of players with data', async () => {
         const response = await server.get('/players')
 
         expect(response.status).toBe(200)
