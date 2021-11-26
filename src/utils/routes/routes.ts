@@ -16,7 +16,7 @@ const authenticateUserController = new AuthenticateUserController();
 
 router.get('/', messageController.handle)
 router.get('/players', getAllPlayerDataSeasonController.handle)
-router.get('/playersid', getAllPlayerController.handle)
+router.get('/allplayers', getAllPlayerController.handle)
 router.get('/players/:playerId', getOnePlayerAllDataSeasonController.handle )
 router.post('/authuser', authenticateUserController.handle)
 
