@@ -9,8 +9,7 @@
     "test": "jest --coverage NODE_ENV = 'test'",
     "start": "node ./build/index.js",
     "start:migrations": "npm run typeorm migration:run && node ./build/index.js",
-    "build": "tsc",
-    "pretest": "eslint --ignore-path .gitignore ."
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
