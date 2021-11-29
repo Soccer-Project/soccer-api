@@ -1,12 +1,12 @@
 import axios from 'axios';
-import createConnection from '../database';
+import createConnection from '../src/database';
 
 const server = axios.create({
     baseURL: 'http://localhost:5000'
 })
 
-describe('/season', () => {
-    it('Should create a season when user is authenticated', async () => {
+describe('/players', () => {
+    it('Should create a player when user is authenticated', async () => {
         const response = await server.post('/authuser', { 
             name: 'user', 
             password: '123456' 
@@ -18,18 +18,18 @@ describe('/season', () => {
             'Content-Type': 'application/json'
         }
 
-        const result = await server.post('/season', {
-            name: '1990'
+        const result = await server.post('/player', {
+            name: 'Some player'
         },
         { headers })
 
         const connection = await createConnection()
-        await connection.query(`DELETE FROM seasons WHERE season_id = '${result.data.season_id}'`)
+        await connection.query(`DELETE FROM players WHERE player_id = '${result.data.player_id}'`)
         await connection.close()
 
         expect(result.status).toBe(200)
         expect(result.data).toMatchObject({
-            name: '1990'
+            name: 'Some player'
         })
     })
 
@@ -40,8 +40,8 @@ describe('/season', () => {
             'Content-Type': 'application/json'
         }
 
-        await server.post('/season', {
-            name: '1990'
+        await server.post('/player', {
+            name: 'Some player'
         },
         { headers })
         .catch(error => {

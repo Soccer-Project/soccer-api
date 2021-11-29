@@ -43,7 +43,7 @@ describe('/players', () => {
     }),
 
     it('Should return status 200 and player with detailed data', async () => {
-      const response = await server.get('/players/8005bfc9-391c-467a-a1f0-93cbeb202351')
+      const response = await server.get('/player/8005bfc9-391c-467a-a1f0-93cbeb202351')
 
       expect(response.status).toBe(200)
       expect(response.data).toMatchObject([
