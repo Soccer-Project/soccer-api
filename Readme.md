@@ -11,6 +11,7 @@
 ### How to run a Project
 
 1 - Clone the repository
+
 2 - Install all dependencies
 
 ---
@@ -29,7 +30,7 @@
 
 ### endpoints
 
-**_GET_** /players
+**_GET_** /allplayers
 
 Return all players and general stats information
 
