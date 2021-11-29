@@ -43,7 +43,7 @@ jobs:
       run: yarn --frozen-lockfile
 
     - name: Run all tests
-      run: yarn test
+      run: yarn test:unit
 
     - name: Deploy application
       if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' }}

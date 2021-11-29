@@ -33,7 +33,7 @@
 
 Return all players and general stats information
 
-**_GET_** /players/:playerId
+**_GET_** /player/:playerId
 
 Return a specific player with stats detailed for season
 

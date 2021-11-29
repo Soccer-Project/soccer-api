@@ -9,7 +9,7 @@ class AuthenticateUserController {
 
         try {
             const token = await authenticateUserService.execute()
-            return response.status(200).json(token);
+            return response.status(200).json({token});
         } catch (error) {
             if(error.message === 'Not authenticated!'){
                 return response.status(401).json({message: error.message})

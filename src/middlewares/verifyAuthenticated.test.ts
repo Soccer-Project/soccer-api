@@ -1,6 +1,5 @@
 import { NextFunction, Request } from 'express';
 import * as jsonwebtoken from 'jsonwebtoken'
-import { makeMockRequest } from '../__mocks__/mockRequest';
 import { makeMockResponse } from '../__mocks__/mockResponse';
 import { verifyAuthenticated } from './verifyAuthenticated';
 

@@ -18,7 +18,9 @@ export function verifyAuthenticated(request: Request, response: Response, next: 
             return next();
         } catch(error){
             console.log(error)
-            return response.status(401)
+            return response.status(401).json({
+                message: "User not authorized"
+            })
         }
     }
 

@@ -33,7 +33,7 @@ describe('AuthenticateUser', () => {
 
         expect(mockExecute).toBeCalled()
         expect(response.state.status).toBe(200)
-        expect(response.state.json).toBe('sometoken')
+        expect(response.state.json).toMatchObject({token: 'sometoken'})
     })
 
     //TODO: test return when user is not authenticated
