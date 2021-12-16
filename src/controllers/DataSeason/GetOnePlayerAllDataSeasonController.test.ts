@@ -26,7 +26,16 @@ describe('GetOnePlayerAllDataSeasonController', () => {
             goals: 2,
             assists: 1
         }
-        mockExecute = jest.fn().mockResolvedValue(dataSeasonMock)
+        mockExecute = jest.fn().mockResolvedValue({
+            detailed: dataSeasonMock,
+            total: {
+                players_player_id: '5fcd39e2-1187-4a15-bc61-2bb065adc7d5',
+                players_name: 'Player name',
+                games: 3,
+                goals: 2,
+                assists: 1
+            }
+        })
 
         const getOnePlayerAllDataSeasonController = new GetOnePlayerAllDataSeasonController();
 
@@ -40,6 +49,15 @@ describe('GetOnePlayerAllDataSeasonController', () => {
 
         expect(mockExecute).toBeCalled()
         expect(response.state.status).toBe(200)
-        expect(response.state.json).toMatchObject(dataSeasonMock)
+        expect(response.state.json).toMatchObject({
+            detailed: dataSeasonMock,
+            total: {
+                players_player_id: '5fcd39e2-1187-4a15-bc61-2bb065adc7d5',
+                players_name: 'Player name',
+                games: 3,
+                goals: 2,
+                assists: 1
+            }
+        })
     })
 })
