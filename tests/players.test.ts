@@ -46,7 +46,8 @@ describe('/players', () => {
       const response = await server.get('/player/8005bfc9-391c-467a-a1f0-93cbeb202351')
 
       expect(response.status).toBe(200)
-      expect(response.data).toMatchObject([
+      expect(response.data).toMatchObject({
+        detailed: [
         {
           "data_season_id": "4bbcba12-bfbb-40d7-bfbe-e564e33de7fc",
           "player_id": "8005bfc9-391c-467a-a1f0-93cbeb202351",
@@ -94,7 +95,14 @@ describe('/players', () => {
             "season_id": "f7ac0601-e7fb-42b9-8d07-bb6348780065",
             "name": "2019"
           }
+        }],
+        total: {
+          "players_player_id": "8005bfc9-391c-467a-a1f0-93cbeb202351",
+          "players_name": "Vinicius Junior",
+          "assists": "18",
+          "games": "105",
+          "goals": "21"
         }
-      ])
+      })
   })
 })
