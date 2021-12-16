@@ -14,27 +14,32 @@ class DataSeasonRepository {
     }
 
     findByPlayer = async (playerId: string): Promise<Array<DataSeason>> => {
-        try {
-            const dataSeason: DataSeason[] = await this.manager.find(DataSeason, {
-                where: {
-                    player_id: playerId,
-                },
-                relations: ['playerId', 'seasonId']
-            })
+        const dataSeason: DataSeason[] = await this.manager.find(DataSeason, {
+            where: {
+                player_id: playerId,
+            },
+            relations: ['playerId', 'seasonId']
+        })        
+        return dataSeason;
+    }
 
-            if(!dataSeason){
-                throw {message: 'No data found!'}
-            }
-            
-            return dataSeason;
-        } catch (error) {
-            return Promise.reject(error)
-        }
+    findAllDataByPlayer = async (playerId: string): Promise<DataSeason> => {
+        const data: DataSeason = await this.manager.createQueryBuilder(DataSeason, 'dataSeason')
+            .select("SUM(dataSeason.games)", "games")
+            .addSelect("SUM(dataSeason.goals)", "goals")
+            .addSelect("SUM(dataSeason.assists)", "assists")
+            .leftJoinAndSelect('dataSeason.playerId', 'players')
+            .leftJoin('dataSeason.seasonId', 'seasonId')
+            .groupBy('dataSeason.playerId')
+            .where("dataSeason.playerId = :playerId", { playerId })
+            .getRawOne()
+    
+        console.log(data)
+        return data
     }
 
     getAllPlayer = async(): Promise<Array<DataSeason>> => {
-        try {
-            const data: DataSeason[] = await this.manager.createQueryBuilder(DataSeason, 'dataSeason')
+        const data: DataSeason[] = await this.manager.createQueryBuilder(DataSeason, 'dataSeason')
             .select("SUM(dataSeason.games)", "games")
             .addSelect("SUM(dataSeason.goals)", "goals")
             .addSelect("SUM(dataSeason.assists)", "assists")
@@ -43,11 +48,8 @@ class DataSeasonRepository {
             .groupBy('dataSeason.playerId')
             .getRawMany()
     
-            console.log(data)
-            return data
-        } catch (error) {
-            return Promise.reject(error)
-        }
+        console.log(data)
+        return data
     }
 }
 

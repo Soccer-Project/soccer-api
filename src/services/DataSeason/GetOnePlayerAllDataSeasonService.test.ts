@@ -39,9 +39,8 @@ describe('GetOnePlayerAllDataSeasonService', () => {
     }
 
     const acumulatedDataSeasonMock = {
-        data_season_id: '1b4416d6-a095-4941-b543-a5a2b9be3b7f',
-        player_id: '5fcd39e2-1187-4a15-bc61-2bb065adc7d5',
-        season_id: 'db563bce-4f8e-44bb-8696-634d41cae495',
+        players_player_id: '5fcd39e2-1187-4a15-bc61-2bb065adc7d5',
+        players_name: 'Player',
         games: 6,
         goals: 4,
         assists: 2
@@ -49,7 +48,10 @@ describe('GetOnePlayerAllDataSeasonService', () => {
 
     it('Find a existing data for player', async () => {
         dataSeasonRepositoryMock.findByPlayer = jest.fn()
-            .mockImplementation(() => Promise.resolve([acumulatedDataSeasonMock]))
+            .mockImplementation(() => Promise.resolve([dataSeasonMock, otherDataSeasonMock]))
+
+        dataSeasonRepositoryMock.findAllDataByPlayer = jest.fn()
+            .mockImplementation(() => Promise.resolve(acumulatedDataSeasonMock))
 
         const dataSeasonReturned: DataSeason = new DataSeason(
             dataSeasonMock.player_id, 
@@ -69,10 +71,15 @@ describe('GetOnePlayerAllDataSeasonService', () => {
         )
         otherDataSeasonReturned.data_season_id = otherDataSeasonMock.data_season_id
 
+        const returnedData = [ dataSeasonMock, otherDataSeasonMock ]
+
         const data = await getOneAllDataSeasonService.execute()
 
         expect(dataSeasonRepositoryMock.findByPlayer).toHaveBeenCalled()
-        expect(data).toMatchObject([acumulatedDataSeasonMock])
+        expect(data).toMatchObject({
+            detailed: returnedData,
+            total: acumulatedDataSeasonMock
+        })
     })  
     
     it('should return a error when have internal error', async () => {

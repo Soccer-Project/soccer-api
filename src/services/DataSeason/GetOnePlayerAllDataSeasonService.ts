@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import { DataSeason } from '../../entities/DataSeason';
 import { DataSeasonRepository } from '../../repositories/DataSeasonRepository';
 
 interface IPlayerDataRepository {
@@ -21,8 +22,12 @@ class GetOnePlayerAllDataSeasonService {
     async execute(){
         try {
             const playerData = await this.dataSeasonRepository.findByPlayer(this.playerId)
-            console.log('service log', playerData)
-            return playerData;
+            const allPlayerData = await this.dataSeasonRepository.findAllDataByPlayer(this.playerId)
+            console.log('service log', playerData, allPlayerData)
+            return { 
+                detailed: playerData, 
+                total: allPlayerData
+            };
         } catch (error) {
             console.log(error)
             return error
