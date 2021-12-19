@@ -54,4 +54,16 @@ describe('CreatePlayerController', () => {
         }
     })
 
+    it('should not create a player with empty name', async () => {
+        const request = {
+            body: {
+                name: ''
+            }
+        } as Request;
+
+        await createPlayerController.handle(request, response)
+
+        expect(response.state.status).toBe(505)
+    })
+
 })

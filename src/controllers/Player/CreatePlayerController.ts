@@ -5,6 +5,10 @@ class CreatePlayerController {
     async handle(request: Request, response: Response){
         const { name } = request.body;
 
+        if(name.length === 0){
+            return response.status(505).json({message: 'Informe um nome válido'})
+        }
+
         const createPlayerService = new CreatePlayerService({name});
 
         try {
