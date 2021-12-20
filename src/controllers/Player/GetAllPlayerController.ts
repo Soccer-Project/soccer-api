@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { GetAllPlayerService } from '../../services/Player/GetAllPlayerService';
 
-class GetAllPlayerController{
+export class GetAllPlayerController{
     async handle(request: Request, response: Response){
         const getAllPlayerService = new GetAllPlayerService();
         
@@ -13,5 +13,3 @@ class GetAllPlayerController{
         }
     }
 }
-
-export { GetAllPlayerController }
