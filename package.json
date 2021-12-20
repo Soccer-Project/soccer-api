@@ -9,7 +9,8 @@
     "test": "jest --coverage NODE_ENV = 'test'",
     "test:unit": "jest src",
     "start": "node ./build/index.js",
-    "build": "rm -rf ./build && tsc"
+    "build": "rm -rf ./build && tsc",
+    "service:dev": "yarn build && yarn start"
   },
   "keywords": [],
   "author": "",

@@ -134,3 +134,25 @@ describe('/season/data', () => {
         })
     })
 })
+
+describe('/seasons', () => {
+    it('Should return status 200 and all seasons', async () => {
+        const response = await server.get('/seasons')
+
+        expect(response.status).toBe(200)
+        expect(response.data).toMatchObject([
+            {
+                season_id: 'f7ac0601-e7fb-42b9-8d07-bb6348780065',
+                name: '2019'
+            },
+            {
+                season_id: '2c610ceb-e5b4-4930-ac42-66772a0fa20a',
+                name: '2020'
+            },
+            {
+                season_id: 'ef564c02-e835-476a-9ccb-d3b16acf4a78',
+                name: '2021'
+            }
+        ])
+    })
+})
