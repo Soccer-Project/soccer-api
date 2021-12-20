@@ -1,15 +1,12 @@
 import { getCustomRepository } from "typeorm";
 import { SeasonRepository } from "../../repositories/SeasonRepository";
 
-interface ISeasonRepository {
-    seasonRepository: SeasonRepository;
-}
 export class GetAllSeasonService {
     private seasonRepository: SeasonRepository;
 
-    constructor({
-        seasonRepository = getCustomRepository(SeasonRepository)
-    }){
+    constructor(
+        seasonRepository: SeasonRepository = getCustomRepository(SeasonRepository)
+    ){
         this.seasonRepository = seasonRepository;
     }
 

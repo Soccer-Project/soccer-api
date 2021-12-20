@@ -6,9 +6,7 @@ import { GetAllSeasonService } from './GetAllSeasonService';
 jest.mock('../../repositories/SeasonRepository')
 
 const seasonRepositoryMock = require('../../repositories/SeasonRepository')
-const getAllSeasonService = new GetAllSeasonService({
-    seasonRepository: seasonRepositoryMock
-});
+const getAllSeasonService = new GetAllSeasonService(seasonRepositoryMock);
 
 describe('GetAllSeasonService', () => {
     const mockAllSeason: Season[] = []
@@ -40,5 +38,17 @@ describe('GetAllSeasonService', () => {
 
         expect(seasonRepositoryMock.getAll).toHaveBeenCalled()
         expect(seasons).toMatchObject(mockAllSeason)
+    })
+
+    it('should return a error message when seasons does not exist', async () => {
+        seasonRepositoryMock.getAll = jest.fn().mockRejectedValue({
+            find: undefined
+        })
+
+        try {
+            await getAllSeasonService.execute()
+        } catch (error) {
+            expect(error).toMatchObject({message: 'Seasons not found!'})
+        }
     })
 })
