@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import { Player } from '../../entities/Player';
 import { PlayerRepository } from '../../repositories/PlayerRepository';
 
 interface IPlayerRepository {
@@ -18,9 +19,9 @@ class GetOnePlayerService {
         this.playerId = playerId
     }
         
-    async execute(){
+    async execute(): Promise<Player>{
         try {
-            const player = await this.playerRepository.findById(this.playerId);
+            const player: Player = await this.playerRepository.findById(this.playerId);
             console.log(player)
             return player
         } catch (error) {
