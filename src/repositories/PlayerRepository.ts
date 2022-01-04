@@ -2,7 +2,7 @@ import { EntityRepository, EntityManager } from "typeorm";
 import { Player } from "../entities/Player";
 
 @EntityRepository(Player)
-class PlayerRepository {
+export class PlayerRepository {
     private manager: EntityManager;
 
     constructor(manager: EntityManager) {
@@ -32,5 +32,3 @@ class PlayerRepository {
         return player
     }
 }
-
-export { PlayerRepository }

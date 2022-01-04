@@ -3,7 +3,7 @@ import { EntityRepository, EntityManager } from "typeorm";
 import { Season } from "../entities/Season"
 
 @EntityRepository(Season)
-class SeasonRepository {
+export class SeasonRepository {
     private manager: EntityManager;
 
     constructor(manager: EntityManager) {
@@ -32,5 +32,3 @@ class SeasonRepository {
         return this.manager.find(Season)
     }
 }
-
-export { SeasonRepository }
