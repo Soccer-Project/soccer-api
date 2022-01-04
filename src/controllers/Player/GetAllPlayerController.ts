@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { GetAllPlayerService } from '../../services/Player/GetAllPlayerService';
 
 export class GetAllPlayerController{
-    async handle(request: Request, response: Response){
+    async handle(request: Request, response: Response): Promise<Response> {
         const getAllPlayerService = new GetAllPlayerService();
         
         try {
