@@ -15,21 +15,17 @@ class SeasonRepository {
     }
 
     findById = async (seasonId: string): Promise<Season> => {
-        try {
-            const season: Season = await this.manager.findOne(Season, {
-                where: {
-                    season_id: seasonId
-                }
-            })
-            
-            if(!season) {
-                throw {message: "Season not found!"};
+        const season: Season = await this.manager.findOne(Season, {
+            where: {
+                season_id: seasonId
             }
-
-            return season;
-        } catch (error) {
-            return Promise.reject(error)
+        })
+        
+        if(!season) {
+            throw {message: "Season not found!"};
         }
+
+        return season;
     }
 
     getAll = async (): Promise<Array<Season>> => {

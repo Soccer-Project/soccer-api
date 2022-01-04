@@ -48,19 +48,4 @@ describe('SeasonRepository', () => {
         expect(managerMock.findOne).toHaveBeenCalled()
         expect(season).toMatchObject(seasonMock)
     })
-
-    it('should trhow error when not find season by id', async () => {
-        const managerMock = await getManagerMock({
-            findOneReturn: undefined
-        })
-
-        const seasonRepository = new SeasonRepository(managerMock)
-
-        try {
-            await seasonRepository.findById('896fe1b6-5ae4-4da2-a94f-e64d640c09d4')
-        } catch (error) {
-            expect(managerMock.findOne).toHaveBeenCalled()
-            expect(error).toMatchObject({message: 'Season not found!'})
-        }
-    })
 })
