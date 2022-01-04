@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { GetAllPlayersDataSeasonService } from '../../services/DataSeason/GetAllPlayersDataSeasonService';
 
 class GetAllPlayersDataSeasonController{
-    async handle(request: Request, response: Response){
+    async handle(request: Request, response: Response): Promise<Response> {
         const getAllPlayersDataService = new GetAllPlayersDataSeasonService();
 
         try {
