@@ -1,6 +1,7 @@
 import { getCustomRepository } from "typeorm";
 import { sign } from "jsonwebtoken";
 import { UserRepository } from "../../repositories/UserRepository";
+import { User } from "../../entities/User";
 
 interface IAuthenticateRequest {
     userRepository?: UserRepository;
@@ -23,15 +24,15 @@ class AuthenticateUserService{
         this.password = password;
     }
 
-    async execute(){
+    async execute(): Promise<string> {
         try {
-            const user = await this.userRepository.findByName(this.name, this.password);
+            const user: User[] = await this.userRepository.findByName(this.name, this.password);
 
             if(user[0] === undefined){
                 throw {message: 'Not authenticated!'}
             }
 
-            const token = sign({
+            const token: string = sign({
                 name: user[0].name,
             }, process.env.TOKEN,
             {

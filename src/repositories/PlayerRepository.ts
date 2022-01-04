@@ -2,7 +2,7 @@ import { EntityRepository, EntityManager } from "typeorm";
 import { Player } from "../entities/Player";
 
 @EntityRepository(Player)
-class PlayerRepository {
+export class PlayerRepository {
     private manager: EntityManager;
 
     constructor(manager: EntityManager) {
@@ -19,22 +19,16 @@ class PlayerRepository {
     }
 
     findById = async (playerId: string): Promise<Player> => {
-        try {
-            const player: Player = await this.manager.findOne(Player, {
-                where: {
-                    player_id: playerId,
-                }
-            })
-
-            if(!player){
-                throw {message: 'Player not found!'}
+        const player: Player = await this.manager.findOne(Player, {
+            where: {
+                player_id: playerId,
             }
+        })
 
-            return player
-        } catch (error) {
-            return Promise.reject(error)
+        if(!player){
+            throw {message: 'Player not found!'}
         }
+
+        return player
     }
 }
-
-export { PlayerRepository }

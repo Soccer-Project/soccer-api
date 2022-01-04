@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { CreatePlayerService } from '../../services/Player/CreatePlayerService'
 
 class CreatePlayerController {
-    async handle(request: Request, response: Response){
+    async handle(request: Request, response: Response): Promise<Response> {
         const { name } = request.body;
 
         if(name.length === 0){

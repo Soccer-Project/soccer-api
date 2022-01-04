@@ -2,7 +2,7 @@ import { EntityRepository, EntityManager } from "typeorm";
 import { DataSeason } from "../entities/DataSeason";
 
 @EntityRepository(DataSeason)
-class DataSeasonRepository {
+export class DataSeasonRepository {
     private manager: EntityManager;
 
     constructor(manager: EntityManager) {
@@ -52,5 +52,3 @@ class DataSeasonRepository {
         return data
     }
 }
-
-export { DataSeasonRepository }

@@ -19,8 +19,8 @@ class CreatePlayerService {
         this.player = new Player(name)
     }
         
-    async execute(){
-        const player = await this.playerRepository.save(this.player);
+    async execute(): Promise<Player> {
+        const player: Player = await this.playerRepository.save(this.player);
         console.log(player)
         return player
     }

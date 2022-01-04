@@ -1,4 +1,5 @@
 import { getCustomRepository } from "typeorm";
+import { Season } from "../../entities/Season";
 import { SeasonRepository } from "../../repositories/SeasonRepository";
 
 interface ISeasonRepository {
@@ -18,9 +19,9 @@ class GetOneSeasonService {
         this.seasonId = seasonId
     }
 
-    async execute(){
+    async execute(): Promise<Season> {
         try {
-            const season = await this.seasonRepository.findById(this.seasonId);
+            const season: Season = await this.seasonRepository.findById(this.seasonId);
             console.log(season)
             return season
         } catch (error) {

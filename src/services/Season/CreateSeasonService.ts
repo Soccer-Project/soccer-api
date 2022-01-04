@@ -19,8 +19,8 @@ class CreateSeasonService{
         this.season = new Season(name)
     }
 
-    async execute(){
-        const season = await this.seasonRepository.save(this.season)
+    async execute(): Promise<Season>{
+        const season: Season = await this.seasonRepository.save(this.season)
         console.log(season)
         return season;
     }

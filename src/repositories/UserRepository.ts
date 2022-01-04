@@ -2,7 +2,7 @@ import { EntityRepository, EntityManager } from "typeorm";
 import { User } from "../entities/User";
 
 @EntityRepository(User)
-class UserRepository{
+export class UserRepository{
     private manager: EntityManager;
 
     constructor(manager: EntityManager) {
@@ -10,19 +10,13 @@ class UserRepository{
     }
 
     findByName = async (name: string, password: string): Promise<Array<User>> => {
-        try {
-            const user: User[] = await this.manager.find(User, {
-                where: { 
-                    name: name,
-                    password: password
-                }
-            })
+        const user: User[] = await this.manager.find(User, {
+            where: { 
+                name: name,
+                password: password
+            }
+        })
 
-            return user;
-        } catch (error) {
-            return Promise.reject(error)
-        }
+        return user;
     }
 }
-
-export { UserRepository }

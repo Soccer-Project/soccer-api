@@ -1,5 +1,6 @@
 
 import { getCustomRepository } from 'typeorm';
+import { DataSeason } from '../../entities/DataSeason';
 import { DataSeasonRepository } from '../../repositories/DataSeasonRepository';
 
 class GetAllPlayersDataSeasonService {
@@ -9,8 +10,8 @@ class GetAllPlayersDataSeasonService {
         this.dataSeasonRepository = dataSeasonRepository;
     }
 
-    async execute(){
-        const data = await this.dataSeasonRepository.getAllPlayer();
+    async execute(): Promise<DataSeason[]>{
+        const data: DataSeason[] = await this.dataSeasonRepository.getAllPlayer();
         console.log(data)
         return data;
     }

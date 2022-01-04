@@ -28,8 +28,8 @@ class CreateDataSeasonService{
         this.dataSeason = new DataSeason(player_id, season_id, games, goals, assists)
     } 
 
-    async execute(){
-        const dataSeason = await this.dataSeasonRepository.save(this.dataSeason)
+    async execute(): Promise<DataSeason>{
+        const dataSeason: DataSeason = await this.dataSeasonRepository.save(this.dataSeason)
         console.log(dataSeason)
         return dataSeason
     }

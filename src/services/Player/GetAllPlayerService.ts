@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import { Player } from '../../entities/Player';
 import { PlayerRepository } from '../../repositories/PlayerRepository';
 class GetAllPlayerService {
     private playerRepository: PlayerRepository
@@ -7,8 +8,8 @@ class GetAllPlayerService {
         this.playerRepository = playerRepository;
     }
         
-    async execute(){
-        const players = await this.playerRepository.getAll();
+    async execute(): Promise<Player[]>{
+        const players: Player[] = await this.playerRepository.getAll();
         console.log(players)
         return players
     }

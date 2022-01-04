@@ -19,7 +19,7 @@ class GetOnePlayerAllDataSeasonService {
         this.playerId = playerId;
     }
 
-    async execute(){
+    async execute(): Promise< { detailed: DataSeason[], total: DataSeason } > {
         try {
             const playerData = await this.dataSeasonRepository.findByPlayer(this.playerId)
             const allPlayerData = await this.dataSeasonRepository.findAllDataByPlayer(this.playerId)
