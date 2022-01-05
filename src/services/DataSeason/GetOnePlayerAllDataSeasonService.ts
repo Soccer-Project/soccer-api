@@ -1,6 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import { DataSeason } from '../../entities/DataSeason';
 import { DataSeasonRepository } from '../../repositories/DataSeasonRepository';
+import { LoggerService } from '../common/LoggerService';
 
 interface IPlayerDataRepository {
     dataSeasonRepository?: DataSeasonRepository;
@@ -10,6 +11,7 @@ interface IPlayerDataRepository {
 class GetOnePlayerAllDataSeasonService {
     private dataSeasonRepository: DataSeasonRepository
     private playerId: string
+    private loger: LoggerService = new LoggerService()
 
     constructor({
         dataSeasonRepository = getCustomRepository(DataSeasonRepository),
@@ -23,13 +25,21 @@ class GetOnePlayerAllDataSeasonService {
         try {
             const playerData = await this.dataSeasonRepository.findByPlayer(this.playerId)
             const allPlayerData = await this.dataSeasonRepository.findAllDataByPlayer(this.playerId)
-            console.log('service log', playerData, allPlayerData)
+            this.loger.trace(
+                'Getting player data',
+                this.constructor.name
+            )
+
             return { 
                 detailed: playerData, 
                 total: allPlayerData
             };
         } catch (error) {
-            console.log(error)
+            this.loger.error(
+                'Error to get player data',
+                error,
+                this.constructor.name
+            )
             return error
         }
     }

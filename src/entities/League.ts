@@ -1,17 +1,17 @@
 import { Entity, Column, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
 
-@Entity('players')
-export class Player {
+@Entity('leagues')
+export class League {
     @PrimaryColumn()
-    player_id: string;
+    league_id: string;
 
     @Column()
     name: string
 
     constructor(name?: string) {
-        if(!this.player_id){
-            this.player_id = uuid();
+        if(!this.league_id){
+            this.league_id = uuid();
         }
         this.name = name;
     }

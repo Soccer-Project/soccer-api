@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
 
 @Entity('users')
-class User {
+export class User {
     @PrimaryColumn()
     user_id: string;
 
@@ -22,5 +22,3 @@ class User {
         this.name = name;
     }
 }
-
-export { User }

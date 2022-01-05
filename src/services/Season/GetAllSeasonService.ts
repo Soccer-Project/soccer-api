@@ -1,9 +1,11 @@
 import { getCustomRepository } from "typeorm";
 import { Season } from "../../entities/Season";
 import { SeasonRepository } from "../../repositories/SeasonRepository";
+import { LoggerService } from "../common/LoggerService";
 
 export class GetAllSeasonService {
     private seasonRepository: SeasonRepository;
+    private loger: LoggerService = new LoggerService();
 
     constructor(
         seasonRepository: SeasonRepository = getCustomRepository(SeasonRepository)
@@ -14,10 +16,13 @@ export class GetAllSeasonService {
     async execute(): Promise<Season[]>{
         try {
             const seasons: Season[] = await this.seasonRepository.getAll()
-            console.log(seasons)
             return seasons;
         } catch (error) {
-            console.log(error)
+            this.loger.error(
+                'Error to get seasons',
+                error,
+                this.constructor.name
+            )
             return error
         }
     }

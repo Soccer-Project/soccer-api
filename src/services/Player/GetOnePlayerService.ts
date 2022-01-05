@@ -1,6 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import { Player } from '../../entities/Player';
 import { PlayerRepository } from '../../repositories/PlayerRepository';
+import { LoggerService } from '../common/LoggerService';
 
 interface IPlayerRepository {
     playerRepository?: PlayerRepository;
@@ -9,7 +10,8 @@ interface IPlayerRepository {
 
 class GetOnePlayerService {
     private playerRepository: PlayerRepository
-    private playerId: string;
+    private playerId: string
+    private loger: LoggerService = new LoggerService()
 
     constructor({
         playerRepository = getCustomRepository(PlayerRepository), 
@@ -22,10 +24,17 @@ class GetOnePlayerService {
     async execute(): Promise<Player>{
         try {
             const player: Player = await this.playerRepository.findById(this.playerId);
-            console.log(player)
+            this.loger.trace(
+                'Getting player',
+                this.constructor.name
+            )
             return player
         } catch (error) {
-            console.log(error)
+            this.loger.error(
+                'Error to get player',
+                error,
+                this.constructor.name
+            )
             return error
         }
     }

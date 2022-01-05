@@ -2,6 +2,7 @@ import { getCustomRepository } from "typeorm";
 import { sign } from "jsonwebtoken";
 import { UserRepository } from "../../repositories/UserRepository";
 import { User } from "../../entities/User";
+import { LoggerService } from '../common/LoggerService';
 
 interface IAuthenticateRequest {
     userRepository?: UserRepository;
@@ -13,6 +14,7 @@ class AuthenticateUserService{
     private userRepository: UserRepository
     private name: string
     private password: string
+    private loger: LoggerService = new LoggerService()
 
     constructor({
         userRepository = getCustomRepository(UserRepository),
@@ -27,6 +29,10 @@ class AuthenticateUserService{
     async execute(): Promise<string> {
         try {
             const user: User[] = await this.userRepository.findByName(this.name, this.password);
+            this.loger.trace(
+                'Getting user token',
+                this.constructor.name
+            )
 
             if(user[0] === undefined){
                 throw {message: 'Not authenticated!'}
@@ -40,9 +46,17 @@ class AuthenticateUserService{
                 expiresIn: "1h"
             })
 
+            this.loger.trace(
+                'Token generated',
+                this.constructor.name
+            )
             return token
         } catch (error) {
-            console.log(error)
+            this.loger.error(
+                'Error to generate token',
+                error,
+                this.constructor.name
+            )
             throw new Error(error.message)
         }
     }

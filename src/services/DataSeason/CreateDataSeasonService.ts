@@ -1,6 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import { DataSeason } from '../../entities/DataSeason';
 import { DataSeasonRepository } from '../../repositories/DataSeasonRepository';
+import { LoggerService } from '../common/LoggerService';
 
 interface IDataSeasonRepository {
     dataSeasonRepository?: DataSeasonRepository,
@@ -15,6 +16,7 @@ class CreateDataSeasonService{
 
     private dataSeasonRepository: DataSeasonRepository
     private dataSeason: DataSeason
+    private loger: LoggerService = new LoggerService()
 
     constructor({
         dataSeasonRepository = getCustomRepository(DataSeasonRepository),
@@ -30,7 +32,10 @@ class CreateDataSeasonService{
 
     async execute(): Promise<DataSeason>{
         const dataSeason: DataSeason = await this.dataSeasonRepository.save(this.dataSeason)
-        console.log(dataSeason)
+        this.loger.trace(
+            'Creating player data',
+            this.constructor.name
+        )
         return dataSeason
     }
 }

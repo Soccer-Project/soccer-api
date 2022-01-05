@@ -1,19 +1,23 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class DataSeason1635416972480 implements MigrationInterface {
+export class DataLeague1641386504434 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'dataSeason',
+                name: 'dataLeague',
                 columns: [
                     {
-                        name: 'data_season_id',
+                        name: 'data_league_id',
                         type: 'varchar',
                         isPrimary: true
                     },
                     {
                         name: 'player_id',
+                        type: 'varchar',
+                    },
+                    {
+                        name: 'league_id',
                         type: 'varchar',
                     },
                     {
@@ -35,13 +39,19 @@ export class DataSeason1635416972480 implements MigrationInterface {
                 ],
                 foreignKeys: [
                     {
-                        name: 'FKPlayerID',
+                        name: 'FK_PlayerID',
                         referencedTableName: 'players',
                         referencedColumnNames: ['player_id'],
                         columnNames: ['player_id']
                     },
                     {
-                        name: 'FKSeasonID',
+                        name: 'FK_LeagueID',
+                        referencedTableName: 'leagues',
+                        referencedColumnNames: ['league_id'],
+                        columnNames: ['league_id']
+                    },
+                    {
+                        name: 'FK_SeasonID',
                         referencedTableName: 'seasons',
                         referencedColumnNames: ['season_id'],
                         columnNames: ['season_id']
@@ -52,7 +62,7 @@ export class DataSeason1635416972480 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('dataSeason');
+        await queryRunner.dropTable('dataLeague')
     }
 
 }

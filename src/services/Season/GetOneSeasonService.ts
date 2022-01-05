@@ -1,6 +1,7 @@
 import { getCustomRepository } from "typeorm";
 import { Season } from "../../entities/Season";
 import { SeasonRepository } from "../../repositories/SeasonRepository";
+import { LoggerService } from "../common/LoggerService";
 
 interface ISeasonRepository {
     seasonRepository?: SeasonRepository;
@@ -10,6 +11,7 @@ interface ISeasonRepository {
 class GetOneSeasonService {
     private seasonRepository: SeasonRepository;
     private seasonId: string;
+    private loger: LoggerService = new LoggerService()
 
     constructor({
         seasonRepository = getCustomRepository(SeasonRepository),
@@ -22,10 +24,13 @@ class GetOneSeasonService {
     async execute(): Promise<Season> {
         try {
             const season: Season = await this.seasonRepository.findById(this.seasonId);
-            console.log(season)
             return season
         } catch (error) {
-            console.log(error)
+            this.loger.error(
+                'Error to get season',
+                error,
+                this.constructor.name
+            )
             return error
         }
     }
